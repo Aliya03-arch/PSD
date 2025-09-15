@@ -8,7 +8,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
-    <title>Welcome to my Jupyter Book &#8212; My sample book</title>
+    <title>DATA PREPOCESSING &#8212; My sample book</title>
   
   
   
@@ -57,10 +57,10 @@
     <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
     <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
     <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
-    <script>DOCUMENTATION_OPTIONS.pagename = 'intro';</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tugas5';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Business Understanding CRISP DM" href="tugas1.html" />
+    <link rel="prev" title="TUGAS" href="tugas4.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -123,8 +123,6 @@
       
       
       
-        
-      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -143,7 +141,7 @@
     
   
 
-<a class="navbar-brand logo" href="#">
+<a class="navbar-brand logo" href="intro.html">
   
   
   
@@ -174,19 +172,19 @@
     <div class="bd-toc-item navbar-nav active">
         
         <ul class="nav bd-sidenav bd-sidenav__home-link">
-            <li class="toctree-l1 current active">
-                <a class="reference internal" href="#">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
                     Welcome to my Jupyter Book
                 </a>
             </li>
         </ul>
-        <ul class="nav bd-sidenav">
+        <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="tugas1.html">Business Understanding CRISP DM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tugas2.html">Data Understanding CRISP DM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tugas3.html">TUGAS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tugas4.html">TUGAS</a></li>
 
-<li class="toctree-l1"><a class="reference internal" href="tugas5.html">DATA PREPOCESSING</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">DATA PREPOCESSING</a></li>
 
 </ul>
 
@@ -259,7 +257,7 @@
       
       
       
-      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Fintro.html&body=Your%20issue%20content%20here." target="_blank"
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Ftugas5.html&body=Your%20issue%20content%20here." target="_blank"
    class="btn btn-sm btn-source-issues-button dropdown-item"
    title="Open an issue"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -289,7 +287,7 @@
       
       
       
-      <li><a href="_sources/intro.md" target="_blank"
+      <li><a href="_sources/tugas5.ipynb" target="_blank"
    class="btn btn-sm btn-download-source-button dropdown-item"
    title="Download source file"
    data-bs-placement="left" data-bs-toggle="tooltip"
@@ -299,7 +297,7 @@
 <span class="btn__icon-container">
   <i class="fas fa-file"></i>
   </span>
-<span class="btn__text-container">.md</span>
+<span class="btn__text-container">.ipynb</span>
 </a>
 </li>
       
@@ -360,7 +358,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -371,11 +371,21 @@ document.write(`
               
 
 <div id="jb-print-docs-body" class="onlyprint">
-    <h1>Welcome to my Jupyter Book</h1>
+    <h1>DATA PREPOCESSING</h1>
     <!-- Table of contents -->
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">DATA PREPOCESSING</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#data-understanding-dan-preprocessing-dengan-deteksi-outlier">Data Understanding dan Preprocessing dengan Deteksi Outlier</a></li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -385,14 +395,138 @@ document.write(`
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section class="tex2jax_ignore mathjax_ignore" id="welcome-to-my-jupyter-book">
-<h1>Welcome to my Jupyter Book<a class="headerlink" href="#welcome-to-my-jupyter-book" title="Link to this heading">#</a></h1>
-<p>Nama  : Aliya Zulfa Syafitri <br>
-NIM   : 230411100157 <br>
-Prodi : Teknik Informatika <br>
-Email : <a class="reference external" href="mailto:aliyazulfasyafitri8&#37;&#52;&#48;gmail&#46;com">aliyazulfasyafitri8<span>&#64;</span>gmail<span>&#46;</span>com</a></p>
-<p>Halo semuanya perkenalkan nama saya Aliya Zulfa Syafitri, nama pangilan saya adalah Aliya. Saya adalah mahasiswi jurusan teknik informatika berasal dari kota pamekasan, madura. Salam kenal semuanya.</p>
-<div class="toctree-wrapper compound">
+  <section class="tex2jax_ignore mathjax_ignore" id="data-prepocessing">
+<h1>DATA PREPOCESSING<a class="headerlink" href="#data-prepocessing" title="Link to this heading">#</a></h1>
+<ol class="arabic simple">
+<li><p>data understanding tambahkan identifikasi outlier</p></li>
+<li><p>tambahkan menu preposesing isinya penghapusan outlier yang mengunakan 3 motode</p></li>
+</ol>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="data-understanding-dan-preprocessing-dengan-deteksi-outlier">
+<h1>Data Understanding dan Preprocessing dengan Deteksi Outlier<a class="headerlink" href="#data-understanding-dan-preprocessing-dengan-deteksi-outlier" title="Link to this heading">#</a></h1>
+<p>import pandas as pd</p>
+<ul class="simple">
+<li><p>Baca dataset
+df = pd.read_excel(“data_iris.xlsx”)</p></li>
+</ul>
+<p>print(“Shape:”, df.shape)
+display(df.head())
+<a class="reference external" href="http://df.info">df.info</a>()
+display(df.describe())</p>
+<ul class="simple">
+<li><p>Encode kolom kategori jika ada
+from sklearn.preprocessing import LabelEncoder
+if ‘Class’ in df.columns:
+le = LabelEncoder()
+df[‘Class’] = le.fit_transform(df[‘Class’])</p></li>
+<li><p>Identifikasi outlier per fitur numerik pakai IQR</p></li>
+<li><p>Exclude ‘Class’ from numerical features for IQR outlier detection
+numerical_features = df.select_dtypes(include=[‘float64’, ‘int64’]).columns.tolist()
+numerical_features_iqr = [col for col in numerical_features if col != ‘Class’]</p></li>
+</ul>
+<p>def detect_outlier_iqr(df, feature):
+Q1 = df[feature].quantile(0.25)
+Q3 = df[feature].quantile(0.75)
+IQR = Q3 - Q1
+lower = Q1 - 1.5 * IQR
+upper = Q3 + 1.5 * IQR
+df[feature + ‘_outlier’] = ((df[feature] &lt; lower) | (df[feature] &gt; upper)).astype(int)</p>
+<p>for col in numerical_features_iqr:
+detect_outlier_iqr(df, col)</p>
+<p>display(df.head())</p>
+<p>Penjelasan:
+Dataset yang digunakan adalah data_iris.xlsx dengan bentuk (shape) sesuai jumlah baris dan kolom yang ditampilkan. Pada tahap awal, data divisualisasikan menggunakan head() sehingga terlihat sampel 5 baris pertama, kemudian ditampilkan informasi struktur dataset melalui info() yang menunjukkan tipe data setiap kolom, jumlah non-null, serta ada tidaknya nilai yang hilang. Setelah itu, ditampilkan juga statistik deskriptif menggunakan describe() yang mencakup nilai minimum, maksimum, mean, standar deviasi, dan kuartil dari setiap kolom numerik. Untuk memastikan konsistensi, jika terdapat kolom kategori seperti Class, kolom tersebut di-encode ke bentuk numerik menggunakan LabelEncoder. Selanjutnya, dilakukan identifikasi outlier pada setiap fitur numerik (selain kolom target/kelas) dengan metode IQR (Interquartile Range). Proses ini menghitung kuartil bawah (Q1), kuartil atas (Q3), dan jarak antarkuartil (IQR), lalu menentukan batas bawah (Q1 – 1.5×IQR) dan batas atas (Q3 + 1.5×IQR). Setiap nilai yang berada di luar rentang tersebut ditandai sebagai outlier dengan nilai 1, sedangkan nilai yang masih berada dalam batas dianggap normal dengan nilai 0. Hasil akhir menambahkan kolom baru untuk setiap fitur numerik, misalnya sepal_length_outlier atau petal_width_outlier, sehingga dapat langsung dilihat fitur mana yang mengandung anomali. Dengan cara ini, data understanding menghasilkan gambaran menyeluruh mengenai struktur dataset, ringkasan statistik, serta distribusi nilai ekstrem (outlier) pada setiap fitur numerik, yang nantinya akan sangat penting dalam tahap preprocessing maupun pemodelan.</p>
+<ul class="simple">
+<li><p>Install Python 3.11
+!sudo apt-get update
+!sudo apt-get install python3.11 python3.11-distutils -y</p></li>
+<li><p>Set python3 default ke versi 3.11
+!sudo update-alternatives –install /usr/bin/python3 python3 /usr/bin/python3.11 1</p></li>
+<li><p>Upgrade pip
+!python3 -m ensurepip –upgrade
+!python3 -m pip install –upgrade pip</p></li>
+</ul>
+<p>!pip install pycaret</p>
+<p>import pandas as pd
+from pyod.models.abod import ABOD
+from pyod.models.knn import KNN
+from pyod.models.lof import LOF
+from sklearn.preprocessing import LabelEncoder</p>
+<ul class="simple">
+<li><p>Data Preparation</p></li>
+<li><p>Baca dataset
+df = pd.read_excel(“data_iris.xlsx”)</p></li>
+<li><p>Encode kolom kategori jika ada
+if ‘Class’ in df.columns:
+le = LabelEncoder()
+df[‘Class’] = le.fit_transform(df[‘Class’])</p></li>
+<li><p>Ambil hanya fitur numerik
+numerical_features = df.select_dtypes(include=[‘float64’, ‘int64’]).columns.tolist()
+X = df[numerical_features]</p></li>
+<li><p>Fungsi deteksi outlier PyOD
+def detect_outlier_pyod(X, model_class, contamination=0.1):
+model = model_class(contamination=contamination)
+model.fit(X)
+labels = model.labels_        # 0 = normal, 1 = outlier
+scores = model.decision_scores_  # skor anomali
+return labels, scores</p></li>
+<li><p>ABOD
+abod_labels, abod_scores = detect_outlier_pyod(X, ABOD)
+df[‘abod_label’] = abod_labels
+df[‘abod_score’] = abod_scores
+abod_normal = df[df[‘abod_label’] == 0]
+abod_outlier = df[df[‘abod_label’] == 1]
+print(“\nABOD Outlier Count:”, len(abod_outlier))</p></li>
+<li><p>KNN
+knn_labels, knn_scores = detect_outlier_pyod(X, KNN)
+df[‘knn_label’] = knn_labels
+df[‘knn_score’] = knn_scores
+knn_normal = df[df[‘knn_label’] == 0]
+knn_outlier = df[df[‘knn_label’] == 1]
+print(“KNN Outlier Count:”, len(knn_outlier))</p></li>
+<li><p>LOF
+lof_labels, lof_scores = detect_outlier_pyod(X, LOF)
+df[‘lof_label’] = lof_labels
+df[‘lof_score’] = lof_scores
+lof_normal = df[df[‘lof_label’] == 0]
+lof_outlier = df[df[‘lof_label’] == 1]
+print(“LOF Outlier Count:”, len(lof_outlier))</p></li>
+<li><p>Tampilkan hasil
+display(df.head())</p></li>
+</ul>
+<p>Penjelasan:
+Pada tahap ini dilakukan proses deteksi outlier menggunakan tiga metode berbeda dari library PyOD, yaitu ABOD (Angle-Based Outlier Detection), KNN (k-Nearest Neighbors), dan LOF (Local Outlier Factor). Pertama, dataset data_iris.xlsx dibaca dengan pandas, lalu apabila terdapat kolom kategori bernama Class, kolom tersebut diubah menjadi numerik menggunakan LabelEncoder agar dapat digunakan bersama fitur numerik lainnya. Selanjutnya hanya kolom-kolom numerik yang dipilih, karena algoritma deteksi outlier tidak dapat bekerja pada data kategorikal. Data numerik ini kemudian dijadikan input ke fungsi detect_outlier_pyod() yang dibuat khusus untuk menjalankan model PyOD. Fungsi ini bekerja dengan cara memanggil model yang ditentukan (ABOD, KNN, atau LOF), melatihnya pada data numerik, lalu menghasilkan dua keluaran, yaitu label yang menandakan apakah sebuah data dianggap normal (0) atau outlier (1), serta score yang menunjukkan tingkat keanehan data.</p>
+<p>import matplotlib.pyplot as plt
+import seaborn as sns</p>
+<ul class="simple">
+<li><p>Visualisasi Outlier dengan Matplotlib</p></li>
+<li><p>Use the original numerical features list for visualization
+numerical_features_for_viz = df.select_dtypes(include=[‘float64’, ‘int64’, ‘object’]).columns.tolist()</p></li>
+<li><p>Remove ‘id’ and outlier columns from numerical features for visualization
+numerical_features_for_viz = [col for col in numerical_features_for_viz if ‘_outlier’ not in col and col != ‘id’ and col != ‘Class’]</p></li>
+</ul>
+<p>for feature in numerical_features_for_viz:
+plt.figure(figsize=(10, 6))
+sns.scatterplot(data=df, x=’Class’, y=feature, hue=’Class’, palette=’viridis’, s=50)</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- Highlight outliers based on IQR detection
+- Ensure the outlier column exists before trying to plot
+if feature + &#39;_outlier&#39; in df.columns:
+    outliers_iqr = df[df[feature + &#39;_outlier&#39;] == 1]
+    plt.scatter(outliers_iqr[&#39;Class&#39;], outliers_iqr[feature], color=&#39;red&#39;, label=&#39;IQR Outlier&#39;, s=100, facecolors=&#39;none&#39;, edgecolors=&#39;red&#39;)
+
+- You can add other outlier detection results here if needed, e.g., for ABOD, KNN, LOF
+- For simplicity, let&#39;s add ABOD outliers as an example
+- outliers_abod = df[df[&#39;abod_label&#39;] == 1]
+- plt.scatter(outliers_abod[&#39;Class&#39;], outliers_abod[feature], color=&#39;blue&#39;, label=&#39;ABOD Outlier&#39;, s=100, facecolors=&#39;none&#39;, edgecolors=&#39;blue&#39;, marker=&#39;X&#39;)
+
+
+plt.title(f&#39;Distribution of {feature} by Class with Outliers Highlighted&#39;)
+plt.xlabel(&#39;Class&#39;)
+plt.ylabel(feature)
+plt.legend()
+plt.grid(True)
+plt.show()
+</pre></div>
 </div>
 </section>
 
@@ -426,14 +560,14 @@ Email : <a class="reference external" href="mailto:aliyazulfasyafitri8&#37;&#52;
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
-    <a class="right-next"
-       href="tugas1.html"
-       title="next page">
+    <a class="left-prev"
+       href="tugas4.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
-        <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Business Understanding CRISP DM</p>
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">TUGAS</p>
       </div>
-      <i class="fa-solid fa-angle-right"></i>
     </a>
 </div>
                 </footer>
@@ -441,6 +575,23 @@ Email : <a class="reference external" href="mailto:aliyazulfasyafitri8&#37;&#52;
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">DATA PREPOCESSING</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#data-understanding-dan-preprocessing-dengan-deteksi-outlier">Data Understanding dan Preprocessing dengan Deteksi Outlier</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
               
             
           </div>
