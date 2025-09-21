@@ -60,6 +60,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'tugas5';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="TUGAS" href="tugas4.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   </head>
@@ -122,8 +123,6 @@
       
       
       
-        
-      
       <div class="bd-sidebar-primary bd-sidebar">
         
 
@@ -179,11 +178,13 @@
                 </a>
             </li>
         </ul>
-        <ul class="nav bd-sidenav">
+        <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="tugas1.html">Business Understanding CRISP DM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tugas2.html">Data Understanding CRISP DM</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tugas3.html">TUGAS</a></li>
 <li class="toctree-l1"><a class="reference internal" href="tugas4.html">TUGAS</a></li>
+
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">DATA PREPOCESSING</a></li>
 
 </ul>
 
@@ -357,7 +358,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -373,6 +376,16 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">DATA PREPOCESSING</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#data-understanding-dan-preprocessing-dengan-deteksi-outlier">Data Understanding dan Preprocessing dengan Deteksi Outlier</a></li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -384,342 +397,136 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="data-prepocessing">
 <h1>DATA PREPOCESSING<a class="headerlink" href="#data-prepocessing" title="Link to this heading">#</a></h1>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Install Python 3.11</span>
-<span class="o">!</span>sudo<span class="w"> </span>apt-get<span class="w"> </span>update
-<span class="o">!</span>sudo<span class="w"> </span>apt-get<span class="w"> </span>install<span class="w"> </span>python3.11<span class="w"> </span>python3.11-distutils<span class="w"> </span>-y
+<ol class="arabic simple">
+<li><p>data understanding tambahkan identifikasi outlier</p></li>
+<li><p>tambahkan menu preposesing isinya penghapusan outlier yang mengunakan 3 motode</p></li>
+</ol>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="data-understanding-dan-preprocessing-dengan-deteksi-outlier">
+<h1>Data Understanding dan Preprocessing dengan Deteksi Outlier<a class="headerlink" href="#data-understanding-dan-preprocessing-dengan-deteksi-outlier" title="Link to this heading">#</a></h1>
+<p>import pandas as pd</p>
+<ul class="simple">
+<li><p>Baca dataset
+df = pd.read_excel(“data_iris.xlsx”)</p></li>
+</ul>
+<p>print(“Shape:”, df.shape)
+display(df.head())
+<a class="reference external" href="http://df.info">df.info</a>()
+display(df.describe())</p>
+<ul class="simple">
+<li><p>Encode kolom kategori jika ada
+from sklearn.preprocessing import LabelEncoder
+if ‘Class’ in df.columns:
+le = LabelEncoder()
+df[‘Class’] = le.fit_transform(df[‘Class’])</p></li>
+<li><p>Identifikasi outlier per fitur numerik pakai IQR</p></li>
+<li><p>Exclude ‘Class’ from numerical features for IQR outlier detection
+numerical_features = df.select_dtypes(include=[‘float64’, ‘int64’]).columns.tolist()
+numerical_features_iqr = [col for col in numerical_features if col != ‘Class’]</p></li>
+</ul>
+<p>def detect_outlier_iqr(df, feature):
+Q1 = df[feature].quantile(0.25)
+Q3 = df[feature].quantile(0.75)
+IQR = Q3 - Q1
+lower = Q1 - 1.5 * IQR
+upper = Q3 + 1.5 * IQR
+df[feature + ‘_outlier’] = ((df[feature] &lt; lower) | (df[feature] &gt; upper)).astype(int)</p>
+<p>for col in numerical_features_iqr:
+detect_outlier_iqr(df, col)</p>
+<p>display(df.head())</p>
+<p>Penjelasan:
+Dataset yang digunakan adalah data_iris.xlsx dengan bentuk (shape) sesuai jumlah baris dan kolom yang ditampilkan. Pada tahap awal, data divisualisasikan menggunakan head() sehingga terlihat sampel 5 baris pertama, kemudian ditampilkan informasi struktur dataset melalui info() yang menunjukkan tipe data setiap kolom, jumlah non-null, serta ada tidaknya nilai yang hilang. Setelah itu, ditampilkan juga statistik deskriptif menggunakan describe() yang mencakup nilai minimum, maksimum, mean, standar deviasi, dan kuartil dari setiap kolom numerik. Untuk memastikan konsistensi, jika terdapat kolom kategori seperti Class, kolom tersebut di-encode ke bentuk numerik menggunakan LabelEncoder. Selanjutnya, dilakukan identifikasi outlier pada setiap fitur numerik (selain kolom target/kelas) dengan metode IQR (Interquartile Range). Proses ini menghitung kuartil bawah (Q1), kuartil atas (Q3), dan jarak antarkuartil (IQR), lalu menentukan batas bawah (Q1 – 1.5×IQR) dan batas atas (Q3 + 1.5×IQR). Setiap nilai yang berada di luar rentang tersebut ditandai sebagai outlier dengan nilai 1, sedangkan nilai yang masih berada dalam batas dianggap normal dengan nilai 0. Hasil akhir menambahkan kolom baru untuk setiap fitur numerik, misalnya sepal_length_outlier atau petal_width_outlier, sehingga dapat langsung dilihat fitur mana yang mengandung anomali. Dengan cara ini, data understanding menghasilkan gambaran menyeluruh mengenai struktur dataset, ringkasan statistik, serta distribusi nilai ekstrem (outlier) pada setiap fitur numerik, yang nantinya akan sangat penting dalam tahap preprocessing maupun pemodelan.</p>
+<ul class="simple">
+<li><p>Install Python 3.11
+!sudo apt-get update
+!sudo apt-get install python3.11 python3.11-distutils -y</p></li>
+<li><p>Set python3 default ke versi 3.11
+!sudo update-alternatives –install /usr/bin/python3 python3 /usr/bin/python3.11 1</p></li>
+<li><p>Upgrade pip
+!python3 -m ensurepip –upgrade
+!python3 -m pip install –upgrade pip</p></li>
+</ul>
+<p>!pip install pycaret</p>
+<p>import pandas as pd
+from pyod.models.abod import ABOD
+from pyod.models.knn import KNN
+from pyod.models.lof import LOF
+from sklearn.preprocessing import LabelEncoder</p>
+<ul class="simple">
+<li><p>Data Preparation</p></li>
+<li><p>Baca dataset
+df = pd.read_excel(“data_iris.xlsx”)</p></li>
+<li><p>Encode kolom kategori jika ada
+if ‘Class’ in df.columns:
+le = LabelEncoder()
+df[‘Class’] = le.fit_transform(df[‘Class’])</p></li>
+<li><p>Ambil hanya fitur numerik
+numerical_features = df.select_dtypes(include=[‘float64’, ‘int64’]).columns.tolist()
+X = df[numerical_features]</p></li>
+<li><p>Fungsi deteksi outlier PyOD
+def detect_outlier_pyod(X, model_class, contamination=0.1):
+model = model_class(contamination=contamination)
+model.fit(X)
+labels = model.labels_        # 0 = normal, 1 = outlier
+scores = model.decision_scores_  # skor anomali
+return labels, scores</p></li>
+<li><p>ABOD
+abod_labels, abod_scores = detect_outlier_pyod(X, ABOD)
+df[‘abod_label’] = abod_labels
+df[‘abod_score’] = abod_scores
+abod_normal = df[df[‘abod_label’] == 0]
+abod_outlier = df[df[‘abod_label’] == 1]
+print(“\nABOD Outlier Count:”, len(abod_outlier))</p></li>
+<li><p>KNN
+knn_labels, knn_scores = detect_outlier_pyod(X, KNN)
+df[‘knn_label’] = knn_labels
+df[‘knn_score’] = knn_scores
+knn_normal = df[df[‘knn_label’] == 0]
+knn_outlier = df[df[‘knn_label’] == 1]
+print(“KNN Outlier Count:”, len(knn_outlier))</p></li>
+<li><p>LOF
+lof_labels, lof_scores = detect_outlier_pyod(X, LOF)
+df[‘lof_label’] = lof_labels
+df[‘lof_score’] = lof_scores
+lof_normal = df[df[‘lof_label’] == 0]
+lof_outlier = df[df[‘lof_label’] == 1]
+print(“LOF Outlier Count:”, len(lof_outlier))</p></li>
+<li><p>Tampilkan hasil
+display(df.head())</p></li>
+</ul>
+<p>Penjelasan:
+Pada tahap ini dilakukan proses deteksi outlier menggunakan tiga metode berbeda dari library PyOD, yaitu ABOD (Angle-Based Outlier Detection), KNN (k-Nearest Neighbors), dan LOF (Local Outlier Factor). Pertama, dataset data_iris.xlsx dibaca dengan pandas, lalu apabila terdapat kolom kategori bernama Class, kolom tersebut diubah menjadi numerik menggunakan LabelEncoder agar dapat digunakan bersama fitur numerik lainnya. Selanjutnya hanya kolom-kolom numerik yang dipilih, karena algoritma deteksi outlier tidak dapat bekerja pada data kategorikal. Data numerik ini kemudian dijadikan input ke fungsi detect_outlier_pyod() yang dibuat khusus untuk menjalankan model PyOD. Fungsi ini bekerja dengan cara memanggil model yang ditentukan (ABOD, KNN, atau LOF), melatihnya pada data numerik, lalu menghasilkan dua keluaran, yaitu label yang menandakan apakah sebuah data dianggap normal (0) atau outlier (1), serta score yang menunjukkan tingkat keanehan data.</p>
+<p>import matplotlib.pyplot as plt
+import seaborn as sns</p>
+<ul class="simple">
+<li><p>Visualisasi Outlier dengan Matplotlib</p></li>
+<li><p>Use the original numerical features list for visualization
+numerical_features_for_viz = df.select_dtypes(include=[‘float64’, ‘int64’, ‘object’]).columns.tolist()</p></li>
+<li><p>Remove ‘id’ and outlier columns from numerical features for visualization
+numerical_features_for_viz = [col for col in numerical_features_for_viz if ‘_outlier’ not in col and col != ‘id’ and col != ‘Class’]</p></li>
+</ul>
+<p>for feature in numerical_features_for_viz:
+plt.figure(figsize=(10, 6))
+sns.scatterplot(data=df, x=’Class’, y=feature, hue=’Class’, palette=’viridis’, s=50)</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>- Highlight outliers based on IQR detection
+- Ensure the outlier column exists before trying to plot
+if feature + &#39;_outlier&#39; in df.columns:
+    outliers_iqr = df[df[feature + &#39;_outlier&#39;] == 1]
+    plt.scatter(outliers_iqr[&#39;Class&#39;], outliers_iqr[feature], color=&#39;red&#39;, label=&#39;IQR Outlier&#39;, s=100, facecolors=&#39;none&#39;, edgecolors=&#39;red&#39;)
 
-<span class="c1"># Set python3 default ke versi 3.11</span>
-<span class="o">!</span>sudo<span class="w"> </span>update-alternatives<span class="w"> </span>--install<span class="w"> </span>/usr/bin/python3<span class="w"> </span>python3<span class="w"> </span>/usr/bin/python3.11<span class="w"> </span><span class="m">1</span>
+- You can add other outlier detection results here if needed, e.g., for ABOD, KNN, LOF
+- For simplicity, let&#39;s add ABOD outliers as an example
+- outliers_abod = df[df[&#39;abod_label&#39;] == 1]
+- plt.scatter(outliers_abod[&#39;Class&#39;], outliers_abod[feature], color=&#39;blue&#39;, label=&#39;ABOD Outlier&#39;, s=100, facecolors=&#39;none&#39;, edgecolors=&#39;blue&#39;, marker=&#39;X&#39;)
 
-<span class="c1"># Upgrade pip</span>
-<span class="o">!</span>python3<span class="w"> </span>-m<span class="w"> </span>ensurepip<span class="w"> </span>--upgrade
-<span class="o">!</span>python3<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>--upgrade<span class="w"> </span>pip
+
+plt.title(f&#39;Distribution of {feature} by Class with Outliers Highlighted&#39;)
+plt.xlabel(&#39;Class&#39;)
+plt.ylabel(feature)
+plt.legend()
+plt.grid(True)
+plt.show()
 </pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;sudo&#39; is not recognized as an internal or external command,
-operable program or batch file.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;sudo&#39; is not recognized as an internal or external command,
-operable program or batch file.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&#39;sudo&#39; is not recognized as an internal or external command,
-operable program or batch file.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Python was not found; run without arguments to install from the Microsoft Store, or disable this shortcut from Settings &gt; Manage App Execution Aliases.
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Python was not found; run without arguments to install from the Microsoft Store, or disable this shortcut from Settings &gt; Manage App Execution Aliases.
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">!</span>pip<span class="w"> </span>install<span class="w"> </span>pycaret
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: pycaret in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (3.3.2)
-Requirement already satisfied: ipython&gt;=5.5.0 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from pycaret) (8.18.1)
-Requirement already satisfied: numpy&lt;1.27,&gt;=1.21 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from pycaret) (1.26.4)
-Requirement already satisfied: joblib&lt;1.4,&gt;=1.2.0 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from pycaret) (1.3.2)
-Requirement already satisfied: psutil&gt;=5.9.0 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from pycaret) (7.0.0)
-Requirement already satisfied: deprecation&gt;=2.1.0 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from pycaret) (2.1.0)
-Requirement already satisfied: yellowbrick&gt;=1.4 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from pycaret) (1.5)
-Requirement already satisfied: kaleido&gt;=0.2.1 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from pycaret) (1.0.0)
-Requirement already satisfied: pyod&gt;=1.1.3 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from pycaret) (2.0.5)
-Requirement already satisfied: importlib-metadata&gt;=4.12.0 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from pycaret) (8.7.0)
-Requirement already satisfied: plotly-resampler&gt;=0.8.3.1 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from pycaret) (0.11.0)
-Requirement already satisfied: requests&gt;=2.27.1 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from pycaret) (2.32.5)
-Requirement already satisfied: scipy&lt;=1.11.4,&gt;=1.6.1 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from pycaret) (1.11.4)
-Requirement already satisfied: schemdraw==0.15 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from pycaret) (0.15)
-Requirement already satisfied: lightgbm&gt;=3.0.0 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from pycaret) (4.6.0)
-Requirement already satisfied: markupsafe&gt;=2.0.1 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from pycaret) (3.0.2)
-Requirement already satisfied: scikit-learn&gt;1.4.0 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from pycaret) (1.6.1)
-Requirement already satisfied: xxhash in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from pycaret) (3.5.0)
-Requirement already satisfied: scikit-plot&gt;=0.3.7 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from pycaret) (0.3.7)
-Requirement already satisfied: imbalanced-learn&gt;=0.12.0 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from pycaret) (0.12.4)
-Requirement already satisfied: statsmodels&gt;=0.12.1 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from pycaret) (0.14.5)
-Requirement already satisfied: cloudpickle in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from pycaret) (3.1.1)
-Requirement already satisfied: category-encoders&gt;=2.4.0 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from pycaret) (2.6.4)
-Requirement already satisfied: jinja2&gt;=3 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from pycaret) (3.1.6)
-Requirement already satisfied: tbats&gt;=1.1.3 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from pycaret) (1.1.3)
-Requirement already satisfied: pmdarima&gt;=2.0.4 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from pycaret) (2.0.4)
-Requirement already satisfied: tqdm&gt;=4.62.0 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from pycaret) (4.67.1)
-Requirement already satisfied: pandas&lt;2.2.0 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from pycaret) (2.1.4)
-Requirement already satisfied: nbformat&gt;=4.2.0 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from pycaret) (5.10.4)
-Requirement already satisfied: sktime==0.26.0 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from pycaret) (0.26.0)
-Requirement already satisfied: ipywidgets&gt;=7.6.5 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from pycaret) (8.1.7)
-Requirement already satisfied: numba&gt;=0.55.0 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from pycaret) (0.60.0)
-Requirement already satisfied: matplotlib&lt;3.8.0 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from pycaret) (3.7.5)
-Requirement already satisfied: plotly&gt;=5.14.0 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from pycaret) (6.3.0)
-Requirement already satisfied: typing-extensions; python_version &lt; &quot;3.10&quot; in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from ipython&gt;=5.5.0-&gt;pycaret) (4.15.0)
-Requirement already satisfied: prompt-toolkit&lt;3.1.0,&gt;=3.0.41 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from ipython&gt;=5.5.0-&gt;pycaret) (3.0.52)
-Requirement already satisfied: stack-data in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from ipython&gt;=5.5.0-&gt;pycaret) (0.6.3)
-Requirement already satisfied: pygments&gt;=2.4.0 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from ipython&gt;=5.5.0-&gt;pycaret) (2.19.2)
-Requirement already satisfied: jedi&gt;=0.16 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from ipython&gt;=5.5.0-&gt;pycaret) (0.19.2)
-Requirement already satisfied: traitlets&gt;=5 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from ipython&gt;=5.5.0-&gt;pycaret) (5.14.3)
-Requirement already satisfied: matplotlib-inline in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from ipython&gt;=5.5.0-&gt;pycaret) (0.1.7)
-Requirement already satisfied: colorama; sys_platform == &quot;win32&quot; in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from ipython&gt;=5.5.0-&gt;pycaret) (0.4.6)
-Requirement already satisfied: exceptiongroup; python_version &lt; &quot;3.11&quot; in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from ipython&gt;=5.5.0-&gt;pycaret) (1.3.0)
-Requirement already satisfied: decorator in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from ipython&gt;=5.5.0-&gt;pycaret) (5.2.1)
-Requirement already satisfied: packaging in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from deprecation&gt;=2.1.0-&gt;pycaret) (25.0)
-Requirement already satisfied: cycler&gt;=0.10.0 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from yellowbrick&gt;=1.4-&gt;pycaret) (0.12.1)
-Requirement already satisfied: choreographer&gt;=1.0.5 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from kaleido&gt;=0.2.1-&gt;pycaret) (1.0.10)
-Requirement already satisfied: orjson&gt;=3.10.15 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from kaleido&gt;=0.2.1-&gt;pycaret) (3.11.3)
-Requirement already satisfied: logistro&gt;=1.0.8 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from kaleido&gt;=0.2.1-&gt;pycaret) (1.1.0)
-Requirement already satisfied: zipp&gt;=3.20 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from importlib-metadata&gt;=4.12.0-&gt;pycaret) (3.23.0)
-Requirement already satisfied: tsdownsample&gt;=0.1.3 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from plotly-resampler&gt;=0.8.3.1-&gt;pycaret) (0.1.4.1)
-Requirement already satisfied: dash&gt;=2.11.0 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from plotly-resampler&gt;=0.8.3.1-&gt;pycaret) (3.2.0)
-Requirement already satisfied: urllib3&lt;3,&gt;=1.21.1 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from requests&gt;=2.27.1-&gt;pycaret) (2.5.0)
-Requirement already satisfied: certifi&gt;=2017.4.17 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from requests&gt;=2.27.1-&gt;pycaret) (2025.8.3)
-Requirement already satisfied: charset_normalizer&lt;4,&gt;=2 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from requests&gt;=2.27.1-&gt;pycaret) (3.4.3)
-Requirement already satisfied: idna&lt;4,&gt;=2.5 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from requests&gt;=2.27.1-&gt;pycaret) (3.10)
-Requirement already satisfied: threadpoolctl&gt;=3.1.0 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from scikit-learn&gt;1.4.0-&gt;pycaret) (3.6.0)
-Requirement already satisfied: patsy&gt;=0.5.6 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from statsmodels&gt;=0.12.1-&gt;pycaret) (1.0.1)
-Requirement already satisfied: Cython!=0.29.18,!=0.29.31,&gt;=0.29 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from pmdarima&gt;=2.0.4-&gt;pycaret) (3.1.3)
-Requirement already satisfied: setuptools!=50.0.0,&gt;=38.6.0 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from pmdarima&gt;=2.0.4-&gt;pycaret) (49.2.1)
-Requirement already satisfied: pytz&gt;=2020.1 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from pandas&lt;2.2.0-&gt;pycaret) (2025.2)
-Requirement already satisfied: tzdata&gt;=2022.1 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from pandas&lt;2.2.0-&gt;pycaret) (2025.2)
-Requirement already satisfied: python-dateutil&gt;=2.8.2 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from pandas&lt;2.2.0-&gt;pycaret) (2.9.0.post0)
-Requirement already satisfied: jupyter-core!=5.0.*,&gt;=4.12 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from nbformat&gt;=4.2.0-&gt;pycaret) (5.8.1)
-Requirement already satisfied: jsonschema&gt;=2.6 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from nbformat&gt;=4.2.0-&gt;pycaret) (4.25.1)
-Requirement already satisfied: fastjsonschema&gt;=2.15 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from nbformat&gt;=4.2.0-&gt;pycaret) (2.21.2)
-Requirement already satisfied: scikit-base&lt;0.8.0 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from sktime==0.26.0-&gt;pycaret) (0.7.8)
-Requirement already satisfied: widgetsnbextension~=4.0.14 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from ipywidgets&gt;=7.6.5-&gt;pycaret) (4.0.14)
-Requirement already satisfied: comm&gt;=0.1.3 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from ipywidgets&gt;=7.6.5-&gt;pycaret) (0.2.3)
-Requirement already satisfied: jupyterlab_widgets~=3.0.15 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from ipywidgets&gt;=7.6.5-&gt;pycaret) (3.0.15)
-Requirement already satisfied: llvmlite&lt;0.44,&gt;=0.43.0dev0 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from numba&gt;=0.55.0-&gt;pycaret) (0.43.0)
-Requirement already satisfied: pyparsing&gt;=2.3.1 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from matplotlib&lt;3.8.0-&gt;pycaret) (3.2.3)
-Requirement already satisfied: contourpy&gt;=1.0.1 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from matplotlib&lt;3.8.0-&gt;pycaret) (1.3.0)
-Requirement already satisfied: importlib-resources&gt;=3.2.0; python_version &lt; &quot;3.10&quot; in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from matplotlib&lt;3.8.0-&gt;pycaret) (6.5.2)
-Requirement already satisfied: pillow&gt;=6.2.0 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from matplotlib&lt;3.8.0-&gt;pycaret) (11.3.0)
-Requirement already satisfied: kiwisolver&gt;=1.0.1 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from matplotlib&lt;3.8.0-&gt;pycaret) (1.4.7)
-Requirement already satisfied: fonttools&gt;=4.22.0 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from matplotlib&lt;3.8.0-&gt;pycaret) (4.59.2)
-Requirement already satisfied: narwhals&gt;=1.15.1 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from plotly&gt;=5.14.0-&gt;pycaret) (2.3.0)
-Requirement already satisfied: wcwidth in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from prompt-toolkit&lt;3.1.0,&gt;=3.0.41-&gt;ipython&gt;=5.5.0-&gt;pycaret) (0.2.13)
-Requirement already satisfied: executing&gt;=1.2.0 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from stack-data-&gt;ipython&gt;=5.5.0-&gt;pycaret) (2.2.0)
-Requirement already satisfied: pure-eval in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from stack-data-&gt;ipython&gt;=5.5.0-&gt;pycaret) (0.2.3)
-Requirement already satisfied: asttokens&gt;=2.1.0 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from stack-data-&gt;ipython&gt;=5.5.0-&gt;pycaret) (3.0.0)
-Requirement already satisfied: parso&lt;0.9.0,&gt;=0.8.4 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from jedi&gt;=0.16-&gt;ipython&gt;=5.5.0-&gt;pycaret) (0.8.5)
-Requirement already satisfied: simplejson&gt;=3.19.3 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from choreographer&gt;=1.0.5-&gt;kaleido&gt;=0.2.1-&gt;pycaret) (3.20.1)
-Requirement already satisfied: Werkzeug&lt;3.2 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from dash&gt;=2.11.0-&gt;plotly-resampler&gt;=0.8.3.1-&gt;pycaret) (3.1.3)
-Requirement already satisfied: nest-asyncio in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from dash&gt;=2.11.0-&gt;plotly-resampler&gt;=0.8.3.1-&gt;pycaret) (1.6.0)
-Requirement already satisfied: retrying in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from dash&gt;=2.11.0-&gt;plotly-resampler&gt;=0.8.3.1-&gt;pycaret) (1.4.2)
-Requirement already satisfied: Flask&lt;3.2,&gt;=1.0.4 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from dash&gt;=2.11.0-&gt;plotly-resampler&gt;=0.8.3.1-&gt;pycaret) (3.1.2)
-Requirement already satisfied: six&gt;=1.5 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from python-dateutil&gt;=2.8.2-&gt;pandas&lt;2.2.0-&gt;pycaret) (1.17.0)
-Requirement already satisfied: pywin32&gt;=300; sys_platform == &quot;win32&quot; and platform_python_implementation != &quot;PyPy&quot; in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from jupyter-core!=5.0.*,&gt;=4.12-&gt;nbformat&gt;=4.2.0-&gt;pycaret) (311)
-Requirement already satisfied: platformdirs&gt;=2.5 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from jupyter-core!=5.0.*,&gt;=4.12-&gt;nbformat&gt;=4.2.0-&gt;pycaret) (4.4.0)
-Requirement already satisfied: attrs&gt;=22.2.0 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from jsonschema&gt;=2.6-&gt;nbformat&gt;=4.2.0-&gt;pycaret) (25.3.0)
-Requirement already satisfied: referencing&gt;=0.28.4 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from jsonschema&gt;=2.6-&gt;nbformat&gt;=4.2.0-&gt;pycaret) (0.36.2)
-Requirement already satisfied: jsonschema-specifications&gt;=2023.03.6 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from jsonschema&gt;=2.6-&gt;nbformat&gt;=4.2.0-&gt;pycaret) (2025.4.1)
-Requirement already satisfied: rpds-py&gt;=0.7.1 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from jsonschema&gt;=2.6-&gt;nbformat&gt;=4.2.0-&gt;pycaret) (0.27.1)
-Requirement already satisfied: itsdangerous&gt;=2.2.0 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from Flask&lt;3.2,&gt;=1.0.4-&gt;dash&gt;=2.11.0-&gt;plotly-resampler&gt;=0.8.3.1-&gt;pycaret) (2.2.0)
-Requirement already satisfied: blinker&gt;=1.9.0 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from Flask&lt;3.2,&gt;=1.0.4-&gt;dash&gt;=2.11.0-&gt;plotly-resampler&gt;=0.8.3.1-&gt;pycaret) (1.9.0)
-Requirement already satisfied: click&gt;=8.1.3 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from Flask&lt;3.2,&gt;=1.0.4-&gt;dash&gt;=2.11.0-&gt;plotly-resampler&gt;=0.8.3.1-&gt;pycaret) (8.1.8)
-</pre></div>
-</div>
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>WARNING: You are using pip version 20.2.3; however, version 25.2 is available.
-You should consider upgrading via the &#39;c:\users\thinkpad\appdata\local\programs\python\python39\python.exe -m pip install --upgrade pip&#39; command.
-</pre></div>
-</div>
-</div>
-</div>
-<div class="cell docutils container">
-<div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">pycaret.anomaly</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
-
-<span class="c1"># Ambil hanya fitur numerik</span>
-<span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">numerical_features</span><span class="p">]</span>
-
-<span class="c1"># Setup PyCaret</span>
-<span class="n">exp_ano</span> <span class="o">=</span> <span class="n">setup</span><span class="p">(</span><span class="n">data</span><span class="o">=</span><span class="n">X</span><span class="p">,</span> <span class="n">normalize</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">silent</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-
-<span class="c1"># --- ABOD ---</span>
-<span class="n">abod_model</span> <span class="o">=</span> <span class="n">create_model</span><span class="p">(</span><span class="s1">&#39;abod&#39;</span><span class="p">)</span>
-<span class="n">abod_results</span> <span class="o">=</span> <span class="n">assign_model</span><span class="p">(</span><span class="n">abod_model</span><span class="p">)</span>  <span class="c1"># menambahkan kolom &#39;Anomaly&#39;</span>
-<span class="n">abod_normal</span> <span class="o">=</span> <span class="n">abod_results</span><span class="p">[</span><span class="n">abod_results</span><span class="p">[</span><span class="s1">&#39;Anomaly&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
-<span class="n">abod_outlier</span> <span class="o">=</span> <span class="n">abod_results</span><span class="p">[</span><span class="n">abod_results</span><span class="p">[</span><span class="s1">&#39;Anomaly&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">ABOD Outlier Count:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">abod_outlier</span><span class="p">))</span>
-
-<span class="c1"># --- KNN ---</span>
-<span class="n">knn_model</span> <span class="o">=</span> <span class="n">create_model</span><span class="p">(</span><span class="s1">&#39;knn&#39;</span><span class="p">)</span>
-<span class="n">knn_results</span> <span class="o">=</span> <span class="n">assign_model</span><span class="p">(</span><span class="n">knn_model</span><span class="p">)</span>
-<span class="n">knn_normal</span> <span class="o">=</span> <span class="n">knn_results</span><span class="p">[</span><span class="n">knn_results</span><span class="p">[</span><span class="s1">&#39;Anomaly&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
-<span class="n">knn_outlier</span> <span class="o">=</span> <span class="n">knn_results</span><span class="p">[</span><span class="n">knn_results</span><span class="p">[</span><span class="s1">&#39;Anomaly&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;KNN Outlier Count:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">knn_outlier</span><span class="p">))</span>
-
-<span class="c1"># --- LOF ---</span>
-<span class="n">lof_model</span> <span class="o">=</span> <span class="n">create_model</span><span class="p">(</span><span class="s1">&#39;lof&#39;</span><span class="p">)</span>
-<span class="n">lof_results</span> <span class="o">=</span> <span class="n">assign_model</span><span class="p">(</span><span class="n">lof_model</span><span class="p">)</span>
-<span class="n">lof_normal</span> <span class="o">=</span> <span class="n">lof_results</span><span class="p">[</span><span class="n">lof_results</span><span class="p">[</span><span class="s1">&#39;Anomaly&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">]</span>
-<span class="n">lof_outlier</span> <span class="o">=</span> <span class="n">lof_results</span><span class="p">[</span><span class="n">lof_results</span><span class="p">[</span><span class="s1">&#39;Anomaly&#39;</span><span class="p">]</span> <span class="o">==</span> <span class="mi">1</span><span class="p">]</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;LOF Outlier Count:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">lof_outlier</span><span class="p">))</span>
-</pre></div>
-</div>
-</div>
-<div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Matplotlib is building the font cache; this may take a moment.
-</pre></div>
-</div>
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">KeyboardInterrupt</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
-<span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">3</span><span class="p">],</span> <span class="n">line</span> <span class="mi">1</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">from</span><span class="w"> </span><span class="nn">pycaret.anomaly</span><span class="w"> </span><span class="kn">import</span> <span class="o">*</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="c1"># Ambil hanya fitur numerik</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="n">numerical_features</span><span class="p">]</span>
-
-<span class="n">File</span> <span class="n">c</span><span class="p">:</span>\<span class="n">users</span>\<span class="n">thinkpad</span>\<span class="n">appdata</span>\<span class="n">local</span>\<span class="n">programs</span>\<span class="n">python</span>\<span class="n">python39</span>\<span class="n">lib</span>\<span class="n">site</span><span class="o">-</span><span class="n">packages</span>\<span class="n">pycaret</span>\<span class="n">anomaly</span>\<span class="fm">__init__</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">1</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="kn">from</span><span class="w"> </span><span class="nn">pycaret.anomaly.functional</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span>     <span class="n">assign_model</span><span class="p">,</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span>     <span class="n">create_model</span><span class="p">,</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span>     <span class="n">deploy_model</span><span class="p">,</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span>     <span class="n">evaluate_model</span><span class="p">,</span>
-<span class="g g-Whitespace">      </span><span class="mi">6</span>     <span class="n">get_config</span><span class="p">,</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span>     <span class="n">get_current_experiment</span><span class="p">,</span>
-<span class="g g-Whitespace">      </span><span class="mi">8</span>     <span class="n">get_logs</span><span class="p">,</span>
-<span class="g g-Whitespace">      </span><span class="mi">9</span>     <span class="n">load_experiment</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">10</span>     <span class="n">load_model</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">11</span>     <span class="n">models</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">12</span>     <span class="n">plot_model</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">13</span>     <span class="n">predict_model</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">14</span>     <span class="n">pull</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">15</span>     <span class="n">save_experiment</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">16</span>     <span class="n">save_model</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">17</span>     <span class="n">set_config</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">18</span>     <span class="n">set_current_experiment</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">19</span>     <span class="n">setup</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">20</span> <span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">21</span> <span class="kn">from</span><span class="w"> </span><span class="nn">pycaret.anomaly.oop</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnomalyExperiment</span>
-<span class="g g-Whitespace">     </span><span class="mi">23</span> <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
-<span class="g g-Whitespace">     </span><span class="mi">24</span>     <span class="s2">&quot;AnomalyExperiment&quot;</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">25</span>     <span class="s2">&quot;setup&quot;</span><span class="p">,</span>
-   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">42</span>     <span class="s2">&quot;get_current_experiment&quot;</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">43</span> <span class="p">]</span>
-
-<span class="n">File</span> <span class="n">c</span><span class="p">:</span>\<span class="n">users</span>\<span class="n">thinkpad</span>\<span class="n">appdata</span>\<span class="n">local</span>\<span class="n">programs</span>\<span class="n">python</span>\<span class="n">python39</span>\<span class="n">lib</span>\<span class="n">site</span><span class="o">-</span><span class="n">packages</span>\<span class="n">pycaret</span>\<span class="n">anomaly</span>\<span class="n">functional</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">8</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="g g-Whitespace">      </span><span class="mi">6</span> <span class="kn">from</span><span class="w"> </span><span class="nn">joblib.memory</span><span class="w"> </span><span class="kn">import</span> <span class="n">Memory</span>
-<span class="ne">----&gt; </span><span class="mi">8</span> <span class="kn">from</span><span class="w"> </span><span class="nn">pycaret.anomaly.oop</span><span class="w"> </span><span class="kn">import</span> <span class="n">AnomalyExperiment</span>
-<span class="g g-Whitespace">      </span><span class="mi">9</span> <span class="kn">from</span><span class="w"> </span><span class="nn">pycaret.loggers.base_logger</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseLogger</span>
-<span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="kn">from</span><span class="w"> </span><span class="nn">pycaret.utils.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">DATAFRAME_LIKE</span><span class="p">,</span> <span class="n">SEQUENCE_LIKE</span>
-
-<span class="n">File</span> <span class="n">c</span><span class="p">:</span>\<span class="n">users</span>\<span class="n">thinkpad</span>\<span class="n">appdata</span>\<span class="n">local</span>\<span class="n">programs</span>\<span class="n">python</span>\<span class="n">python39</span>\<span class="n">lib</span>\<span class="n">site</span><span class="o">-</span><span class="n">packages</span>\<span class="n">pycaret</span>\<span class="n">anomaly</span>\<span class="n">oop</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">6</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
-<span class="g g-Whitespace">      </span><span class="mi">5</span> <span class="kn">from</span><span class="w"> </span><span class="nn">pycaret.containers.metrics.anomaly</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_all_metric_containers</span>
-<span class="ne">----&gt; </span><span class="mi">6</span> <span class="kn">from</span><span class="w"> </span><span class="nn">pycaret.containers.models.anomaly</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_all_model_containers</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span> <span class="kn">from</span><span class="w"> </span><span class="nn">pycaret.internal.logging</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_logger</span>
-<span class="g g-Whitespace">      </span><span class="mi">8</span> <span class="kn">from</span><span class="w"> </span><span class="nn">pycaret.internal.pycaret_experiment.unsupervised_experiment</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
-<span class="g g-Whitespace">      </span><span class="mi">9</span>     <span class="n">_UnsupervisedExperiment</span><span class="p">,</span>
-<span class="g g-Whitespace">     </span><span class="mi">10</span> <span class="p">)</span>
-
-<span class="n">File</span> <span class="n">c</span><span class="p">:</span>\<span class="n">users</span>\<span class="n">thinkpad</span>\<span class="n">appdata</span>\<span class="n">local</span>\<span class="n">programs</span>\<span class="n">python</span>\<span class="n">python39</span>\<span class="n">lib</span>\<span class="n">site</span><span class="o">-</span><span class="n">packages</span>\<span class="n">pycaret</span>\<span class="n">containers</span>\<span class="n">models</span>\<span class="n">anomaly</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">16</span>
-<span class="g g-Whitespace">     </span><span class="mi">13</span> <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
-<span class="g g-Whitespace">     </span><span class="mi">15</span> <span class="kn">import</span><span class="w"> </span><span class="nn">pycaret.containers.base_container</span>
-<span class="ne">---&gt; </span><span class="mi">16</span> <span class="kn">import</span><span class="w"> </span><span class="nn">pycaret.internal.cuml_wrappers</span>
-<span class="g g-Whitespace">     </span><span class="mi">17</span> <span class="kn">from</span><span class="w"> </span><span class="nn">pycaret.containers.models.base_model</span><span class="w"> </span><span class="kn">import</span> <span class="n">ModelContainer</span>
-<span class="g g-Whitespace">     </span><span class="mi">18</span> <span class="kn">from</span><span class="w"> </span><span class="nn">pycaret.internal.distributions</span><span class="w"> </span><span class="kn">import</span> <span class="n">Distribution</span>
-
-<span class="n">File</span> <span class="n">c</span><span class="p">:</span>\<span class="n">users</span>\<span class="n">thinkpad</span>\<span class="n">appdata</span>\<span class="n">local</span>\<span class="n">programs</span>\<span class="n">python</span>\<span class="n">python39</span>\<span class="n">lib</span>\<span class="n">site</span><span class="o">-</span><span class="n">packages</span>\<span class="n">pycaret</span>\<span class="n">internal</span>\<span class="n">cuml_wrappers</span><span class="o">.</span><span class="n">py</span><span class="p">:</span><span class="mi">6</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.preprocessing</span><span class="w"> </span><span class="kn">import</span> <span class="n">LabelEncoder</span>
-<span class="g g-Whitespace">      </span><span class="mi">4</span> <span class="kn">from</span><span class="w"> </span><span class="nn">pycaret.utils._dependencies</span><span class="w"> </span><span class="kn">import</span> <span class="n">_check_soft_dependencies</span>
-<span class="ne">----&gt; </span><span class="mi">6</span> <span class="k">if</span> <span class="n">_check_soft_dependencies</span><span class="p">(</span><span class="s2">&quot;cuml&quot;</span><span class="p">,</span> <span class="n">extra</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">severity</span><span class="o">=</span><span class="s2">&quot;warning&quot;</span><span class="p">):</span>
-<span class="g g-Whitespace">      </span><span class="mi">7</span>     <span class="kn">from</span><span class="w"> </span><span class="nn">cuml.cluster</span><span class="w"> </span><span class="kn">import</span> <span class="n">DBSCAN</span> <span class="k">as</span> <span class="n">cuMLDBSCAN</span>
-<span class="g g-Whitespace">      </span><span class="mi">9</span>     <span class="k">class</span><span class="w"> </span><span class="nc">DBSCAN</span><span class="p">(</span><span class="n">cuMLDBSCAN</span><span class="p">):</span>
-
-<span class="nn">File c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages\pycaret\utils\_dependencies.py:135,</span> in <span class="ni">_check_soft_dependencies</span><span class="nt">(package, severity, extra, install_name)</span>
-<span class="g g-Whitespace">    </span><span class="mi">101</span><span class="w"> </span><span class="sd">&quot;&quot;&quot;Check if all soft dependencies are installed and raise appropriate error message</span>
-<span class="g g-Whitespace">    </span><span class="mi">102</span><span class="sd"> when not.</span>
-<span class="g g-Whitespace">    </span><span class="mi">103</span><span class="sd"> </span>
-<span class="sd">   (...)</span>
-<span class="g g-Whitespace">    </span><span class="mi">131</span><span class="sd">     Is the severity argument is not one of the allowed values</span>
-<span class="g g-Whitespace">    </span><span class="mi">132</span><span class="sd"> &quot;&quot;&quot;</span>
-<span class="g g-Whitespace">    </span><span class="mi">133</span> <span class="n">install_name</span> <span class="o">=</span> <span class="n">install_name</span> <span class="ow">or</span> <span class="n">package</span>
-<span class="ne">--&gt; </span><span class="mi">135</span> <span class="n">package_available</span> <span class="o">=</span> <span class="n">is_module_installed</span><span class="p">(</span><span class="n">package</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">137</span> <span class="k">if</span> <span class="n">package_available</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">138</span>     <span class="n">ver</span> <span class="o">=</span> <span class="n">get_module_version</span><span class="p">(</span><span class="n">package</span><span class="p">)</span>
-
-<span class="nn">File c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages\pycaret\utils\_dependencies.py:89,</span> in <span class="ni">is_module_installed</span><span class="nt">(modname)</span>
-<span class="g g-Whitespace">     </span><span class="mi">87</span> <span class="k">def</span><span class="w"> </span><span class="nf">is_module_installed</span><span class="p">(</span><span class="n">modname</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="g g-Whitespace">     </span><span class="mi">88</span>     <span class="k">try</span><span class="p">:</span>
-<span class="ne">---&gt; </span><span class="mi">89</span>         <span class="n">get_module_version</span><span class="p">(</span><span class="n">modname</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">90</span>         <span class="k">return</span> <span class="kc">True</span>
-<span class="g g-Whitespace">     </span><span class="mi">91</span>     <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-
-<span class="nn">File c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages\pycaret\utils\_dependencies.py:81,</span> in <span class="ni">get_module_version</span><span class="nt">(modname)</span>
-<span class="g g-Whitespace">     </span><span class="mi">79</span> <span class="k">def</span><span class="w"> </span><span class="nf">get_module_version</span><span class="p">(</span><span class="n">modname</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">LooseVersion</span><span class="p">]:</span>
-<span class="g g-Whitespace">     </span><span class="mi">80</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;Raises a ValueError if module is not installed&quot;&quot;&quot;</span>
-<span class="ne">---&gt; </span><span class="mi">81</span>     <span class="n">version</span> <span class="o">=</span> <span class="n">_get_module_version</span><span class="p">(</span><span class="n">modname</span><span class="p">)</span>
-<span class="g g-Whitespace">     </span><span class="mi">82</span>     <span class="k">if</span> <span class="n">version</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
-<span class="g g-Whitespace">     </span><span class="mi">83</span>         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Module &#39;</span><span class="si">{</span><span class="n">modname</span><span class="si">}</span><span class="s2">&#39; is not installed.&quot;</span><span class="p">)</span>
-
-<span class="nn">File c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages\pycaret\utils\_dependencies.py:72,</span> in <span class="ni">_get_module_version</span><span class="nt">(modname)</span>
-<span class="g g-Whitespace">     </span><span class="mi">68</span> <span class="k">def</span><span class="w"> </span><span class="nf">_get_module_version</span><span class="p">(</span><span class="n">modname</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">LooseVersion</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]]:</span>
-<span class="g g-Whitespace">     </span><span class="mi">69</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;Will cache the version in INSTALLED_MODULES</span>
-<span class="g g-Whitespace">     </span><span class="mi">70</span><span class="sd"> </span>
-<span class="g g-Whitespace">     </span><span class="mi">71</span><span class="sd">     Returns False if module is not installed.&quot;&quot;&quot;</span>
-<span class="ne">---&gt; </span><span class="mi">72</span>     <span class="n">installed_modules</span> <span class="o">=</span> <span class="n">get_installed_modules</span><span class="p">()</span>
-<span class="g g-Whitespace">     </span><span class="mi">73</span>     <span class="k">if</span> <span class="n">modname</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">installed_modules</span><span class="p">:</span>
-<span class="g g-Whitespace">     </span><span class="mi">74</span>         <span class="c1"># Fallback. This should never happen unless module is not present</span>
-<span class="g g-Whitespace">     </span><span class="mi">75</span>         <span class="n">installed_modules</span><span class="p">[</span><span class="n">modname</span><span class="p">]</span> <span class="o">=</span> <span class="n">_try_import_and_get_module_version</span><span class="p">(</span><span class="n">modname</span><span class="p">)</span>
-
-<span class="nn">File c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages\pycaret\utils\_dependencies.py:58,</span> in <span class="ni">get_installed_modules</span><span class="nt">()</span>
-<span class="g g-Whitespace">     </span><span class="mi">53</span> <span class="c1"># top_level.txt contains information about modules</span>
-<span class="g g-Whitespace">     </span><span class="mi">54</span> <span class="c1"># in the package. It is not always present, in which case</span>
-<span class="g g-Whitespace">     </span><span class="mi">55</span> <span class="c1"># the assumption is that the package name is the module name.</span>
-<span class="g g-Whitespace">     </span><span class="mi">56</span> <span class="c1"># https://setuptools.pypa.io/en/latest/deprecated/python_eggs.html</span>
-<span class="g g-Whitespace">     </span><span class="mi">57</span> <span class="k">for</span> <span class="n">dist</span> <span class="ow">in</span> <span class="n">distributions</span><span class="p">():</span>
-<span class="ne">---&gt; </span><span class="mi">58</span>     <span class="k">for</span> <span class="n">pkg</span> <span class="ow">in</span> <span class="p">(</span><span class="n">dist</span><span class="o">.</span><span class="n">read_text</span><span class="p">(</span><span class="s2">&quot;top_level.txt&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
-<span class="g g-Whitespace">     </span><span class="mi">59</span>         <span class="k">try</span><span class="p">:</span>
-<span class="g g-Whitespace">     </span><span class="mi">60</span>             <span class="n">ver</span> <span class="o">=</span> <span class="n">LooseVersion</span><span class="p">(</span><span class="n">dist</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;Version&quot;</span><span class="p">])</span>
-
-<span class="nn">File c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages\importlib_metadata\__init__.py:998,</span> in <span class="ni">PathDistribution.read_text</span><span class="nt">(self, filename)</span>
-<span class="g g-Whitespace">    </span><span class="mi">990</span> <span class="k">def</span><span class="w"> </span><span class="nf">read_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">os</span><span class="o">.</span><span class="n">PathLike</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="g g-Whitespace">    </span><span class="mi">991</span>     <span class="k">with</span> <span class="n">suppress</span><span class="p">(</span>
-<span class="g g-Whitespace">    </span><span class="mi">992</span>         <span class="ne">FileNotFoundError</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">993</span>         <span class="ne">IsADirectoryError</span><span class="p">,</span>
-   <span class="p">(</span><span class="o">...</span><span class="p">)</span>
-<span class="g g-Whitespace">    </span><span class="mi">996</span>         <span class="ne">PermissionError</span><span class="p">,</span>
-<span class="g g-Whitespace">    </span><span class="mi">997</span>     <span class="p">):</span>
-<span class="ne">--&gt; </span><span class="mi">998</span>         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_path</span><span class="o">.</span><span class="n">joinpath</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">(</span><span class="n">encoding</span><span class="o">=</span><span class="s1">&#39;utf-8&#39;</span><span class="p">)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1000</span>     <span class="k">return</span> <span class="kc">None</span>
-
-<span class="nn">File c:\users\thinkpad\appdata\local\programs\python\python39\lib\pathlib.py:1255,</span> in <span class="ni">Path.read_text</span><span class="nt">(self, encoding, errors)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1251</span> <span class="k">def</span><span class="w"> </span><span class="nf">read_text</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="g g-Whitespace">   </span><span class="mi">1252</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="g g-Whitespace">   </span><span class="mi">1253</span><span class="sd">     Open the file in text mode, read it, and close the file.</span>
-<span class="g g-Whitespace">   </span><span class="mi">1254</span><span class="sd">     &quot;&quot;&quot;</span>
-<span class="ne">-&gt; </span><span class="mi">1255</span>     <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">mode</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="n">encoding</span><span class="p">,</span> <span class="n">errors</span><span class="o">=</span><span class="n">errors</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1256</span>         <span class="k">return</span> <span class="n">f</span><span class="o">.</span><span class="n">read</span><span class="p">()</span>
-
-<span class="nn">File c:\users\thinkpad\appdata\local\programs\python\python39\lib\pathlib.py:1241,</span> in <span class="ni">Path.open</span><span class="nt">(self, mode, buffering, encoding, errors, newline)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1235</span> <span class="k">def</span><span class="w"> </span><span class="nf">open</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s1">&#39;r&#39;</span><span class="p">,</span> <span class="n">buffering</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">encoding</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1236</span>          <span class="n">errors</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">newline</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="g g-Whitespace">   </span><span class="mi">1237</span><span class="w">     </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="g g-Whitespace">   </span><span class="mi">1238</span><span class="sd">     Open the file pointed by this path and return a file object, as</span>
-<span class="g g-Whitespace">   </span><span class="mi">1239</span><span class="sd">     the built-in open() function does.</span>
-<span class="g g-Whitespace">   </span><span class="mi">1240</span><span class="sd">     &quot;&quot;&quot;</span>
-<span class="ne">-&gt; </span><span class="mi">1241</span>     <span class="k">return</span> <span class="n">io</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">,</span> <span class="n">buffering</span><span class="p">,</span> <span class="n">encoding</span><span class="p">,</span> <span class="n">errors</span><span class="p">,</span> <span class="n">newline</span><span class="p">,</span>
-<span class="g g-Whitespace">   </span><span class="mi">1242</span>                    <span class="n">opener</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_opener</span><span class="p">)</span>
-
-<span class="nn">File c:\users\thinkpad\appdata\local\programs\python\python39\lib\pathlib.py:1109,</span> in <span class="ni">Path._opener</span><span class="nt">(self, name, flags, mode)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1107</span> <span class="k">def</span><span class="w"> </span><span class="nf">_opener</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">flags</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="mo">0o666</span><span class="p">):</span>
-<span class="g g-Whitespace">   </span><span class="mi">1108</span>     <span class="c1"># A stub for the opener argument to built-in open()</span>
-<span class="ne">-&gt; </span><span class="mi">1109</span>     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_accessor</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">flags</span><span class="p">,</span> <span class="n">mode</span><span class="p">)</span>
-
-<span class="ne">KeyboardInterrupt</span>: 
-</pre></div>
-</div>
-</div>
 </div>
 </section>
 
@@ -753,12 +560,38 @@ You should consider upgrading via the &#39;c:\users\thinkpad\appdata\local\progr
                 <footer class="prev-next-footer d-print-none">
                   
 <div class="prev-next-area">
+    <a class="left-prev"
+       href="tugas4.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">TUGAS</p>
+      </div>
+    </a>
 </div>
                 </footer>
               
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">DATA PREPOCESSING</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#data-understanding-dan-preprocessing-dengan-deteksi-outlier">Data Understanding dan Preprocessing dengan Deteksi Outlier</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
               
             
           </div>
