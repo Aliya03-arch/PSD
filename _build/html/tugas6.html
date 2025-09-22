@@ -60,6 +60,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'tugas6';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="TUGAS PENYEIMBANG DATA DENGAN SMOTE DAN ADASYN" href="tugas7.html" />
     <link rel="prev" title="DATA PREPOCESSING" href="tugas5.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -187,6 +188,10 @@
 <li class="toctree-l1"><a class="reference internal" href="tugas5.html">DATA PREPOCESSING</a></li>
 
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">TUGAS MENGGABUNGKAN DATA</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="tugas7.html">TUGAS PENYEIMBANG DATA DENGAN SMOTE DAN ADASYN</a></li>
+
+
 </ul>
 
     </div>
@@ -359,7 +364,9 @@ document.write(`
   </button>
 `);
 </script>
-
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
 </div></div>
       
     </div>
@@ -375,6 +382,16 @@ document.write(`
     <div id="print-main-content">
         <div id="jb-print-toc">
             
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">TUGAS MENGGABUNGKAN DATA</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#transform-data">Transform data</a></li>
+</ul>
+
+            </nav>
         </div>
     </div>
 </div>
@@ -386,6 +403,22 @@ document.write(`
                   
   <section class="tex2jax_ignore mathjax_ignore" id="tugas-menggabungkan-data">
 <h1>TUGAS MENGGABUNGKAN DATA<a class="headerlink" href="#tugas-menggabungkan-data" title="Link to this heading">#</a></h1>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="transform-data">
+<h1>Transform data<a class="headerlink" href="#transform-data" title="Link to this heading">#</a></h1>
+<p><img alt="image9.png" src="attachment:image9.png" /></p>
+<p>Deskripsi Data</p>
+<p>Dataset ini merupakan kombinasi dari dua tabel, yaitu sepal dan petal, yang menyediakan rincian tentang bunga iris.
+Berdasarkan potongan yang terlihat, data ini menyajikan kolom-kolom berikut:</p>
+<ul class="simple">
+<li><p>id_sepal : identifikasi unik untuk setiap baris dalam data sepal.</p></li>
+<li><p>class : kategori bunga, di sini menunjukkan Iris-setosa.</p></li>
+<li><p>sepal_length : ukuran panjang sepal (dalam cm).</p></li>
+<li><p>sepal_width : ukuran lebar sepal (dalam cm).</p></li>
+<li><p>id_petal, petal_length : tetap bernilai null karena informasi mengenai petal belum muncul di bagian ini (akan muncul jika baris berasal dari tabel petal).</p></li>
+</ul>
+<p>Jumlah keseluruhan data: 450 baris (kombinasi dari sepal dan petal).
+Data gabungan Iris ini menunjukkan rincian bunga Iris dengan atribut sepal dan petal yang masih terpisah (akibat dari proses penambahan). Dari bagian yang ditampilkan, terutama untuk spesies Iris-setosa, semua ukuran panjang dan lebar sepal berada dalam batas normal sehingga tidak ada outlier yang terdeteksi. Nilai kosong (null) di kolom petal bukan merupakan kesalahan data, tetapi merupakan hasil dari penggabungan tabel.</p>
 </section>
 
     <script type="text/x-thebe-config">
@@ -427,12 +460,38 @@ document.write(`
         <p class="prev-next-title">DATA PREPOCESSING</p>
       </div>
     </a>
+    <a class="right-next"
+       href="tugas7.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">TUGAS PENYEIMBANG DATA DENGAN SMOTE DAN ADASYN</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
 </div>
                 </footer>
               
             </div>
             
             
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">TUGAS MENGGABUNGKAN DATA</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#transform-data">Transform data</a></li>
+</ul>
+
+  </nav></div>
+
+</div></div>
               
             
           </div>
