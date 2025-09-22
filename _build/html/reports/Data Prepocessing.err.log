@@ -1,0 +1,102 @@
+Traceback (most recent call last):
+  File "c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages\jupyter_core\utils\__init__.py", line 154, in wrapped
+    asyncio.get_running_loop()
+RuntimeError: no running event loop
+
+During handling of the above exception, another exception occurred:
+
+Traceback (most recent call last):
+  File "c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages\jupyter_cache\executors\utils.py", line 58, in single_nb_execution
+    executenb(
+  File "c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages\nbclient\client.py", line 1319, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+  File "c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages\jupyter_core\utils\__init__.py", line 158, in wrapped
+    return loop.run_until_complete(inner)
+  File "c:\users\thinkpad\appdata\local\programs\python\python39\lib\asyncio\base_events.py", line 642, in run_until_complete
+    return future.result()
+  File "c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages\nbclient\client.py", line 709, in async_execute
+    await self.async_execute_cell(
+  File "c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages\nbclient\client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages\nbclient\client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+import pandas as pd
+
+# Baca file Excel
+df = pd.read_excel("data_iris.xlsx")
+
+# Tampilkan informasi dataset
+print("Shape:", df.shape)
+print("\n-- Head --")
+display(df.head())
+
+print("\n-- Info --")
+df.info()
+
+print("\n-- Deskripsi statistik numeric --")
+display(df.describe())
+------------------
+
+
+[1;31m---------------------------------------------------------------------------[0m
+[1;31mFileNotFoundError[0m                         Traceback (most recent call last)
+Cell [1;32mIn[4], line 4[0m
+[0;32m      1[0m [38;5;28;01mimport[39;00m[38;5;250m [39m[38;5;21;01mpandas[39;00m[38;5;250m [39m[38;5;28;01mas[39;00m[38;5;250m [39m[38;5;21;01mpd[39;00m
+[0;32m      3[0m [38;5;66;03m# Baca file Excel[39;00m
+[1;32m----> 4[0m df [38;5;241m=[39m [43mpd[49m[38;5;241;43m.[39;49m[43mread_excel[49m[43m([49m[38;5;124;43m"[39;49m[38;5;124;43mdata_iris.xlsx[39;49m[38;5;124;43m"[39;49m[43m)[49m
+[0;32m      6[0m [38;5;66;03m# Tampilkan informasi dataset[39;00m
+[0;32m      7[0m [38;5;28mprint[39m([38;5;124m"[39m[38;5;124mShape:[39m[38;5;124m"[39m, df[38;5;241m.[39mshape)
+
+File [1;32mc:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages\pandas\io\excel\_base.py:504[0m, in [0;36mread_excel[1;34m(io, sheet_name, header, names, index_col, usecols, dtype, engine, converters, true_values, false_values, skiprows, nrows, na_values, keep_default_na, na_filter, verbose, parse_dates, date_parser, date_format, thousands, decimal, comment, skipfooter, storage_options, dtype_backend, engine_kwargs)[0m
+[0;32m    502[0m [38;5;28;01mif[39;00m [38;5;129;01mnot[39;00m [38;5;28misinstance[39m(io, ExcelFile):
+[0;32m    503[0m     should_close [38;5;241m=[39m [38;5;28;01mTrue[39;00m
+[1;32m--> 504[0m     io [38;5;241m=[39m [43mExcelFile[49m[43m([49m
+[0;32m    505[0m [43m        [49m[43mio[49m[43m,[49m
+[0;32m    506[0m [43m        [49m[43mstorage_options[49m[38;5;241;43m=[39;49m[43mstorage_options[49m[43m,[49m
+[0;32m    507[0m [43m        [49m[43mengine[49m[38;5;241;43m=[39;49m[43mengine[49m[43m,[49m
+[0;32m    508[0m [43m        [49m[43mengine_kwargs[49m[38;5;241;43m=[39;49m[43mengine_kwargs[49m[43m,[49m
+[0;32m    509[0m [43m    [49m[43m)[49m
+[0;32m    510[0m [38;5;28;01melif[39;00m engine [38;5;129;01mand[39;00m engine [38;5;241m!=[39m io[38;5;241m.[39mengine:
+[0;32m    511[0m     [38;5;28;01mraise[39;00m [38;5;167;01mValueError[39;00m(
+[0;32m    512[0m         [38;5;124m"[39m[38;5;124mEngine should not be specified when passing [39m[38;5;124m"[39m
+[0;32m    513[0m         [38;5;124m"[39m[38;5;124man ExcelFile - ExcelFile already has the engine set[39m[38;5;124m"[39m
+[0;32m    514[0m     )
+
+File [1;32mc:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages\pandas\io\excel\_base.py:1563[0m, in [0;36mExcelFile.__init__[1;34m(self, path_or_buffer, engine, storage_options, engine_kwargs)[0m
+[0;32m   1561[0m     ext [38;5;241m=[39m [38;5;124m"[39m[38;5;124mxls[39m[38;5;124m"[39m
+[0;32m   1562[0m [38;5;28;01melse[39;00m:
+[1;32m-> 1563[0m     ext [38;5;241m=[39m [43minspect_excel_format[49m[43m([49m
+[0;32m   1564[0m [43m        [49m[43mcontent_or_path[49m[38;5;241;43m=[39;49m[43mpath_or_buffer[49m[43m,[49m[43m [49m[43mstorage_options[49m[38;5;241;43m=[39;49m[43mstorage_options[49m
+[0;32m   1565[0m [43m    [49m[43m)[49m
+[0;32m   1566[0m     [38;5;28;01mif[39;00m ext [38;5;129;01mis[39;00m [38;5;28;01mNone[39;00m:
+[0;32m   1567[0m         [38;5;28;01mraise[39;00m [38;5;167;01mValueError[39;00m(
+[0;32m   1568[0m             [38;5;124m"[39m[38;5;124mExcel file format cannot be determined, you must specify [39m[38;5;124m"[39m
+[0;32m   1569[0m             [38;5;124m"[39m[38;5;124man engine manually.[39m[38;5;124m"[39m
+[0;32m   1570[0m         )
+
+File [1;32mc:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages\pandas\io\excel\_base.py:1419[0m, in [0;36minspect_excel_format[1;34m(content_or_path, storage_options)[0m
+[0;32m   1416[0m [38;5;28;01mif[39;00m [38;5;28misinstance[39m(content_or_path, [38;5;28mbytes[39m):
+[0;32m   1417[0m     content_or_path [38;5;241m=[39m BytesIO(content_or_path)
+[1;32m-> 1419[0m [38;5;28;01mwith[39;00m [43mget_handle[49m[43m([49m
+[0;32m   1420[0m [43m    [49m[43mcontent_or_path[49m[43m,[49m[43m [49m[38;5;124;43m"[39;49m[38;5;124;43mrb[39;49m[38;5;124;43m"[39;49m[43m,[49m[43m [49m[43mstorage_options[49m[38;5;241;43m=[39;49m[43mstorage_options[49m[43m,[49m[43m [49m[43mis_text[49m[38;5;241;43m=[39;49m[38;5;28;43;01mFalse[39;49;00m
+[0;32m   1421[0m [43m[49m[43m)[49m [38;5;28;01mas[39;00m handle:
+[0;32m   1422[0m     stream [38;5;241m=[39m handle[38;5;241m.[39mhandle
+[0;32m   1423[0m     stream[38;5;241m.[39mseek([38;5;241m0[39m)
+
+File [1;32mc:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages\pandas\io\common.py:872[0m, in [0;36mget_handle[1;34m(path_or_buf, mode, encoding, compression, memory_map, is_text, errors, storage_options)[0m
+[0;32m    863[0m         handle [38;5;241m=[39m [38;5;28mopen[39m(
+[0;32m    864[0m             handle,
+[0;32m    865[0m             ioargs[38;5;241m.[39mmode,
+[1;32m   (...)[0m
+[0;32m    868[0m             newline[38;5;241m=[39m[38;5;124m"[39m[38;5;124m"[39m,
+[0;32m    869[0m         )
+[0;32m    870[0m     [38;5;28;01melse[39;00m:
+[0;32m    871[0m         [38;5;66;03m# Binary mode[39;00m
+[1;32m--> 872[0m         handle [38;5;241m=[39m [38;5;28;43mopen[39;49m[43m([49m[43mhandle[49m[43m,[49m[43m [49m[43mioargs[49m[38;5;241;43m.[39;49m[43mmode[49m[43m)[49m
+[0;32m    873[0m     handles[38;5;241m.[39mappend(handle)
+[0;32m    875[0m [38;5;66;03m# Convert BytesIO or file objects passed with an encoding[39;00m
+
+[1;31mFileNotFoundError[0m: [Errno 2] No such file or directory: 'data_iris.xlsx'
+
