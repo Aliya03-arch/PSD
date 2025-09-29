@@ -192,6 +192,9 @@
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">TUGAS PENYEIMBANG DATA DENGAN SMOTE DAN ADASYN</a></li>
 
 
+
+
+
 <li class="toctree-l1"><a class="reference internal" href="Data%20Prepocessing.html">Data Preprocessing</a></li>
 
 
@@ -393,6 +396,9 @@ document.write(`
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">TUGAS PENYEIMBANG DATA DENGAN SMOTE DAN ADASYN</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#smote">SMOTE</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#adasyn">ADASYN</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#klasifikasi-data-menggunakan-naive-bayes">KLASIFIKASI DATA MENGGUNAKAN NAIVE BAYES</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#klasifikasi-data-menggunakan-random-forest">KLASIFIKASI DATA MENGGUNAKAN RANDOM FOREST</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#tugas-klasifikasi-menggunakan-naive-bayes">Tugas : Klasifikasi menggunakan Naive Bayes</a></li>
 </ul>
 
             </nav>
@@ -414,13 +420,13 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: imbalanced-learn in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (0.12.4)Note: you may need to restart the kernel to use updated packages.
-
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: imbalanced-learn in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (0.12.4)
 Requirement already satisfied: numpy&gt;=1.17.3 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from imbalanced-learn) (1.26.4)
 Requirement already satisfied: scipy&gt;=1.5.0 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from imbalanced-learn) (1.11.4)
 Requirement already satisfied: scikit-learn&gt;=1.0.2 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from imbalanced-learn) (1.4.2)
 Requirement already satisfied: joblib&gt;=1.1.1 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from imbalanced-learn) (1.3.2)
 Requirement already satisfied: threadpoolctl&gt;=2.0.0 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from imbalanced-learn) (3.6.0)
+Note: you may need to restart the kernel to use updated packages.
 </pre></div>
 </div>
 </div>
@@ -432,8 +438,7 @@ Requirement already satisfied: threadpoolctl&gt;=2.0.0 in c:\users\thinkpad\appd
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: pandas in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (2.1.4)Note: you may need to restart the kernel to use updated packages.
-
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: pandas in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (2.1.4)
 Requirement already satisfied: scikit-learn in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (1.4.2)
 Requirement already satisfied: imbalanced-learn in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (0.12.4)
 Requirement already satisfied: matplotlib in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (3.7.5)
@@ -454,6 +459,7 @@ Requirement already satisfied: pyparsing&gt;=2.3.1 in c:\users\thinkpad\appdata\
 Requirement already satisfied: importlib-resources&gt;=3.2.0 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from matplotlib) (6.5.2)
 Requirement already satisfied: zipp&gt;=3.1.0 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from importlib-resources&gt;=3.2.0-&gt;matplotlib) (3.23.0)
 Requirement already satisfied: six&gt;=1.5 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from python-dateutil&gt;=2.8.2-&gt;pandas) (1.17.0)
+Note: you may need to restart the kernel to use updated packages.
 </pre></div>
 </div>
 </div>
@@ -813,6 +819,378 @@ Tidak ada nilai n_neighbors yang berhasil untuk dataset ini.
 </div>
 </div>
 </div>
+<ol class="arabic simple">
+<li><p>Distribusi asli (UCI)</p></li>
+</ol>
+<p>Menurut UCI, dataset Ecoli berisi 336 instance dengan distribusi kelas sebagai berikut:</p>
+<ul class="simple">
+<li><p>cp : 143</p></li>
+<li><p>im : 77</p></li>
+<li><p>pp : 52</p></li>
+<li><p>imU: 35</p></li>
+<li><p>om : 20</p></li>
+<li><p>omL: 5</p></li>
+<li><p>imL: 2</p></li>
+<li><p>imS: 2
+(total = 143 + 77 + 52 + 35 + 20 + 5 + 2 + 2 = 336).</p></li>
+</ul>
+<ol class="arabic simple" start="2">
+<li><p>Setelah langkah filter kelas langka (≤ 2 sampel)</p></li>
+</ol>
+<p>Kamu memfilter valid_classes = class_counts[class_counts &gt; 2], maka kelas dengan 2 sampel (imL dan imS) dibuang. Jadi tersisa 6 kelas:</p>
+<p>Per-kelas (setelah filter):</p>
+<ul class="simple">
+<li><p>cp : 143</p></li>
+<li><p>im : 77</p></li>
+<li><p>pp : 52</p></li>
+<li><p>imU: 35</p></li>
+<li><p>om : 20</p></li>
+<li><p>omL: 5
+Jumlah total setelah filter = 143 + 77 + 52 + 35 + 20 + 5 = 332.
+(Penjelasan: 336 − 2 − 2 = 332.)</p></li>
+</ul>
+<ol class="arabic simple" start="3">
+<li><p>Pembagian train / test yang dipakai di kode kamu</p></li>
+</ol>
+<p>Kamu pakai train_test_split(…, test_size=0.3, stratify=…) — berarti sekitar 30% data dipakai untuk test, 70% untuk train. Dokumentasi scikit-learn menyatakan test_size sebagai proporsi. Dalam praktik scikit-learn untuk float ada pembulatan sehingga jumlah sampel test biasanya menjadi integer (perilaku rounding bisa membuat jumlah test jadi ceil(n * test_size) dalam banyak kasus; implementasi internal bisa menyesuaikan agar stratify terpenuhi).</p>
+<p>Untuk kejelasan, aku hitung angka yang diharapkan pada setiap skenario (angka-angka ini mengikuti aturan test_size=0.3 dan asumsi pembulatan biasa — secara praktis per-kelas hasil stratify bisa beda ±1 karena rounding internal).</p>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="klasifikasi-data-menggunakan-naive-bayes">
+<h1>KLASIFIKASI DATA MENGGUNAKAN NAIVE BAYES<a class="headerlink" href="#klasifikasi-data-menggunakan-naive-bayes" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.naive_bayes</span><span class="w"> </span><span class="kn">import</span> <span class="n">GaussianNB</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">accuracy_score</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">imblearn.over_sampling</span><span class="w"> </span><span class="kn">import</span> <span class="n">SMOTE</span><span class="p">,</span> <span class="n">ADASYN</span>
+
+<span class="c1"># Fungsi evaluasi Naive Bayes</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_nb</span><span class="p">(</span><span class="n">X_data</span><span class="p">,</span> <span class="n">y_data</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">):</span>
+    <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+        <span class="n">X_data</span><span class="p">,</span> <span class="n">y_data</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="n">test_size</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">,</span> <span class="n">stratify</span><span class="o">=</span><span class="n">y_data</span>
+    <span class="p">)</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">GaussianNB</span><span class="p">()</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+    <span class="n">acc</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">acc</span>
+
+<span class="c1"># --------- 1. Data asli (belum diseimbangkan) ---------</span>
+<span class="n">acc_original</span> <span class="o">=</span> <span class="n">run_nb</span><span class="p">(</span><span class="n">X_filtered</span><span class="p">,</span> <span class="n">y_filtered</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Akurasi Naive Bayes (Data Asli): </span><span class="si">{</span><span class="n">acc_original</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># --------- 2. Data SMOTE ---------</span>
+<span class="n">smote</span> <span class="o">=</span> <span class="n">SMOTE</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">k_neighbors</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">X_res_smote</span><span class="p">,</span> <span class="n">y_res_smote</span> <span class="o">=</span> <span class="n">smote</span><span class="o">.</span><span class="n">fit_resample</span><span class="p">(</span><span class="n">X_filtered</span><span class="p">,</span> <span class="n">y_filtered</span><span class="p">)</span>
+<span class="n">acc_smote</span> <span class="o">=</span> <span class="n">run_nb</span><span class="p">(</span><span class="n">X_res_smote</span><span class="p">,</span> <span class="n">y_res_smote</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Akurasi Naive Bayes (Setelah SMOTE): </span><span class="si">{</span><span class="n">acc_smote</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># --------- 3. Data ADASYN (fallback ke SMOTE jika gagal) ---------</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">adasyn</span> <span class="o">=</span> <span class="n">ADASYN</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">n_neighbors</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">X_res_ada</span><span class="p">,</span> <span class="n">y_res_ada</span> <span class="o">=</span> <span class="n">adasyn</span><span class="o">.</span><span class="n">fit_resample</span><span class="p">(</span><span class="n">X_filtered</span><span class="p">,</span> <span class="n">y_filtered</span><span class="p">)</span>
+    <span class="n">acc_adasyn</span> <span class="o">=</span> <span class="n">run_nb</span><span class="p">(</span><span class="n">X_res_ada</span><span class="p">,</span> <span class="n">y_res_ada</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Akurasi Naive Bayes (Setelah ADASYN): </span><span class="si">{</span><span class="n">acc_adasyn</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ADASYN gagal, pakai hasil SMOTE sebagai gantinya&quot;</span><span class="p">)</span>
+    <span class="n">X_res_ada</span><span class="p">,</span> <span class="n">y_res_ada</span> <span class="o">=</span> <span class="n">X_res_smote</span><span class="p">,</span> <span class="n">y_res_smote</span>
+    <span class="n">acc_adasyn</span> <span class="o">=</span> <span class="n">acc_smote</span>
+
+<span class="c1"># ======================</span>
+<span class="c1"># Visualisasi hasil akurasi</span>
+<span class="c1"># ======================</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">([</span><span class="s2">&quot;Original&quot;</span><span class="p">,</span> <span class="s2">&quot;SMOTE&quot;</span><span class="p">,</span> <span class="s2">&quot;ADASYN&quot;</span><span class="p">],</span> 
+        <span class="p">[</span><span class="n">acc_original</span><span class="p">,</span> <span class="n">acc_smote</span><span class="p">,</span> <span class="n">acc_adasyn</span><span class="p">],</span> 
+        <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;skyblue&quot;</span><span class="p">,</span> <span class="s2">&quot;lightgreen&quot;</span><span class="p">,</span> <span class="s2">&quot;salmon&quot;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Perbandingan Akurasi Naive Bayes&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Akurasi&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="n">acc_original</span><span class="p">,</span> <span class="n">acc_smote</span><span class="p">,</span> <span class="n">acc_adasyn</span><span class="p">]):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="o">+</span> <span class="mf">0.02</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">v</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Akurasi Naive Bayes (Data Asli): 0.7981
+Akurasi Naive Bayes (Setelah SMOTE): 0.8638
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ADASYN gagal, pakai hasil SMOTE sebagai gantinya
+</pre></div>
+</div>
+<img alt="_images/dc3cdab30515e35b1ad89786a3627104b130c8b5037669b0fcb6c30ffefdb857.png" src="_images/dc3cdab30515e35b1ad89786a3627104b130c8b5037669b0fcb6c30ffefdb857.png" />
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="klasifikasi-data-menggunakan-random-forest">
+<h1>KLASIFIKASI DATA MENGGUNAKAN RANDOM FOREST<a class="headerlink" href="#klasifikasi-data-menggunakan-random-forest" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.ensemble</span><span class="w"> </span><span class="kn">import</span> <span class="n">RandomForestClassifier</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">accuracy_score</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">imblearn.over_sampling</span><span class="w"> </span><span class="kn">import</span> <span class="n">SMOTE</span><span class="p">,</span> <span class="n">ADASYN</span>
+
+<span class="c1"># Fungsi evaluasi Random Forest</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">run_rf</span><span class="p">(</span><span class="n">X_data</span><span class="p">,</span> <span class="n">y_data</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">):</span>
+    <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+        <span class="n">X_data</span><span class="p">,</span> <span class="n">y_data</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="n">test_size</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">,</span> <span class="n">stratify</span><span class="o">=</span><span class="n">y_data</span>
+    <span class="p">)</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">RandomForestClassifier</span><span class="p">(</span>
+        <span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span>
+    <span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+    <span class="n">acc</span> <span class="o">=</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">acc</span>
+
+<span class="c1"># --------- 1. Data asli (belum diseimbangkan) ---------</span>
+<span class="n">acc_original_rf</span> <span class="o">=</span> <span class="n">run_rf</span><span class="p">(</span><span class="n">X_filtered</span><span class="p">,</span> <span class="n">y_filtered</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Akurasi Random Forest (Data Asli): </span><span class="si">{</span><span class="n">acc_original_rf</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># --------- 2. Data SMOTE ---------</span>
+<span class="n">smote</span> <span class="o">=</span> <span class="n">SMOTE</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">k_neighbors</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">X_res_smote</span><span class="p">,</span> <span class="n">y_res_smote</span> <span class="o">=</span> <span class="n">smote</span><span class="o">.</span><span class="n">fit_resample</span><span class="p">(</span><span class="n">X_filtered</span><span class="p">,</span> <span class="n">y_filtered</span><span class="p">)</span>
+<span class="n">acc_smote_rf</span> <span class="o">=</span> <span class="n">run_rf</span><span class="p">(</span><span class="n">X_res_smote</span><span class="p">,</span> <span class="n">y_res_smote</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Akurasi Random Forest (Setelah SMOTE): </span><span class="si">{</span><span class="n">acc_smote_rf</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># --------- 3. Data ADASYN (fallback ke SMOTE jika gagal) ---------</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">adasyn</span> <span class="o">=</span> <span class="n">ADASYN</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">n_neighbors</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">X_res_ada</span><span class="p">,</span> <span class="n">y_res_ada</span> <span class="o">=</span> <span class="n">adasyn</span><span class="o">.</span><span class="n">fit_resample</span><span class="p">(</span><span class="n">X_filtered</span><span class="p">,</span> <span class="n">y_filtered</span><span class="p">)</span>
+    <span class="n">acc_adasyn_rf</span> <span class="o">=</span> <span class="n">run_rf</span><span class="p">(</span><span class="n">X_res_ada</span><span class="p">,</span> <span class="n">y_res_ada</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Akurasi Random Forest (Setelah ADASYN): </span><span class="si">{</span><span class="n">acc_adasyn_rf</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ADASYN gagal, pakai hasil SMOTE sebagai gantinya&quot;</span><span class="p">)</span>
+    <span class="n">X_res_ada</span><span class="p">,</span> <span class="n">y_res_ada</span> <span class="o">=</span> <span class="n">X_res_smote</span><span class="p">,</span> <span class="n">y_res_smote</span>
+    <span class="n">acc_adasyn_rf</span> <span class="o">=</span> <span class="n">acc_smote_rf</span>
+
+<span class="c1"># ======================</span>
+<span class="c1"># Visualisasi hasil akurasi</span>
+<span class="c1"># ======================</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">([</span><span class="s2">&quot;Original&quot;</span><span class="p">,</span> <span class="s2">&quot;SMOTE&quot;</span><span class="p">,</span> <span class="s2">&quot;ADASYN&quot;</span><span class="p">],</span> 
+        <span class="p">[</span><span class="n">acc_original_rf</span><span class="p">,</span> <span class="n">acc_smote_rf</span><span class="p">,</span> <span class="n">acc_adasyn_rf</span><span class="p">],</span> 
+        <span class="n">color</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;skyblue&quot;</span><span class="p">,</span> <span class="s2">&quot;lightgreen&quot;</span><span class="p">,</span> <span class="s2">&quot;salmon&quot;</span><span class="p">])</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Perbandingan Akurasi Random Forest&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Akurasi&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">([</span><span class="n">acc_original_rf</span><span class="p">,</span> <span class="n">acc_smote_rf</span><span class="p">,</span> <span class="n">acc_adasyn_rf</span><span class="p">]):</span>
+    <span class="n">plt</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">v</span> <span class="o">+</span> <span class="mf">0.02</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">v</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;center&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">fontweight</span><span class="o">=</span><span class="s2">&quot;bold&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Akurasi Random Forest (Data Asli): 0.8750
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Akurasi Random Forest (Setelah SMOTE): 0.9369
+ADASYN gagal, pakai hasil SMOTE sebagai gantinya
+</pre></div>
+</div>
+<img alt="_images/c9e0edb6a243254e96ba4cd0e37bbe08e61941b0ba7c7c7bb521843eb206d487.png" src="_images/c9e0edb6a243254e96ba4cd0e37bbe08e61941b0ba7c7c7bb521843eb206d487.png" />
+</div>
+</div>
+</section>
+<section class="tex2jax_ignore mathjax_ignore" id="tugas-klasifikasi-menggunakan-naive-bayes">
+<h1>Tugas : Klasifikasi menggunakan Naive Bayes<a class="headerlink" href="#tugas-klasifikasi-menggunakan-naive-bayes" title="Link to this heading">#</a></h1>
+<ol class="arabic simple">
+<li><p>Data belum diseimbangkan</p></li>
+<li><p>Data diseimbangkan menggunakan smote</p></li>
+<li><p>Data diseimbangkan menggunakan adasyn</p></li>
+</ol>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.naive_bayes</span><span class="w"> </span><span class="kn">import</span> <span class="n">GaussianNB</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.ensemble</span><span class="w"> </span><span class="kn">import</span> <span class="n">RandomForestClassifier</span><span class="p">,</span> <span class="n">BaggingClassifier</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.metrics</span><span class="w"> </span><span class="kn">import</span> <span class="n">accuracy_score</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">imblearn.over_sampling</span><span class="w"> </span><span class="kn">import</span> <span class="n">SMOTE</span><span class="p">,</span> <span class="n">ADASYN</span>
+
+<span class="c1"># ======================</span>
+<span class="c1"># Fungsi evaluasi model</span>
+<span class="c1"># ======================</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">evaluate_model</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">):</span>
+    <span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+        <span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="n">test_size</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="n">random_state</span><span class="p">,</span> <span class="n">stratify</span><span class="o">=</span><span class="n">y</span>
+    <span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X_train</span><span class="p">,</span> <span class="n">y_train</span><span class="p">)</span>
+    <span class="n">y_pred</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_test</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">accuracy_score</span><span class="p">(</span><span class="n">y_test</span><span class="p">,</span> <span class="n">y_pred</span><span class="p">)</span>
+
+<span class="c1"># ======================</span>
+<span class="c1"># Evaluasi pada 3 kondisi data</span>
+<span class="c1"># ======================</span>
+<span class="n">results</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;Naive Bayes&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;Random Forest&quot;</span><span class="p">:</span> <span class="p">[],</span> <span class="s2">&quot;Bagging&quot;</span><span class="p">:</span> <span class="p">[]}</span>
+<span class="n">labels</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Original&quot;</span><span class="p">,</span> <span class="s2">&quot;SMOTE&quot;</span><span class="p">,</span> <span class="s2">&quot;ADASYN&quot;</span><span class="p">]</span>
+
+<span class="c1"># --- 1. Data Original ---</span>
+<span class="n">results</span><span class="p">[</span><span class="s2">&quot;Naive Bayes&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">evaluate_model</span><span class="p">(</span><span class="n">GaussianNB</span><span class="p">(),</span> <span class="n">X_filtered</span><span class="p">,</span> <span class="n">y_filtered</span><span class="p">))</span>
+<span class="n">results</span><span class="p">[</span><span class="s2">&quot;Random Forest&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">evaluate_model</span><span class="p">(</span><span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">),</span> <span class="n">X_filtered</span><span class="p">,</span> <span class="n">y_filtered</span><span class="p">))</span>
+<span class="n">results</span><span class="p">[</span><span class="s2">&quot;Bagging&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">evaluate_model</span><span class="p">(</span><span class="n">BaggingClassifier</span><span class="p">(</span><span class="n">estimator</span><span class="o">=</span><span class="n">GaussianNB</span><span class="p">(),</span> <span class="n">n_estimators</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">),</span> <span class="n">X_filtered</span><span class="p">,</span> <span class="n">y_filtered</span><span class="p">))</span>
+
+<span class="c1"># --- 2. Data SMOTE ---</span>
+<span class="n">smote</span> <span class="o">=</span> <span class="n">SMOTE</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">k_neighbors</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">X_res_smote</span><span class="p">,</span> <span class="n">y_res_smote</span> <span class="o">=</span> <span class="n">smote</span><span class="o">.</span><span class="n">fit_resample</span><span class="p">(</span><span class="n">X_filtered</span><span class="p">,</span> <span class="n">y_filtered</span><span class="p">)</span>
+<span class="n">results</span><span class="p">[</span><span class="s2">&quot;Naive Bayes&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">evaluate_model</span><span class="p">(</span><span class="n">GaussianNB</span><span class="p">(),</span> <span class="n">X_res_smote</span><span class="p">,</span> <span class="n">y_res_smote</span><span class="p">))</span>
+<span class="n">results</span><span class="p">[</span><span class="s2">&quot;Random Forest&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">evaluate_model</span><span class="p">(</span><span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">),</span> <span class="n">X_res_smote</span><span class="p">,</span> <span class="n">y_res_smote</span><span class="p">))</span>
+<span class="n">results</span><span class="p">[</span><span class="s2">&quot;Bagging&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">evaluate_model</span><span class="p">(</span><span class="n">BaggingClassifier</span><span class="p">(</span><span class="n">estimator</span><span class="o">=</span><span class="n">GaussianNB</span><span class="p">(),</span> <span class="n">n_estimators</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">),</span> <span class="n">X_res_smote</span><span class="p">,</span> <span class="n">y_res_smote</span><span class="p">))</span>
+
+<span class="c1"># --- 3. Data ADASYN ---</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">adasyn</span> <span class="o">=</span> <span class="n">ADASYN</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">n_neighbors</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+    <span class="n">X_res_ada</span><span class="p">,</span> <span class="n">y_res_ada</span> <span class="o">=</span> <span class="n">adasyn</span><span class="o">.</span><span class="n">fit_resample</span><span class="p">(</span><span class="n">X_filtered</span><span class="p">,</span> <span class="n">y_filtered</span><span class="p">)</span>
+<span class="k">except</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;ADASYN gagal, pakai hasil SMOTE sebagai gantinya&quot;</span><span class="p">)</span>
+    <span class="n">X_res_ada</span><span class="p">,</span> <span class="n">y_res_ada</span> <span class="o">=</span> <span class="n">X_res_smote</span><span class="p">,</span> <span class="n">y_res_smote</span>
+
+<span class="n">results</span><span class="p">[</span><span class="s2">&quot;Naive Bayes&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">evaluate_model</span><span class="p">(</span><span class="n">GaussianNB</span><span class="p">(),</span> <span class="n">X_res_ada</span><span class="p">,</span> <span class="n">y_res_ada</span><span class="p">))</span>
+<span class="n">results</span><span class="p">[</span><span class="s2">&quot;Random Forest&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">evaluate_model</span><span class="p">(</span><span class="n">RandomForestClassifier</span><span class="p">(</span><span class="n">n_estimators</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">),</span> <span class="n">X_res_ada</span><span class="p">,</span> <span class="n">y_res_ada</span><span class="p">))</span>
+<span class="n">results</span><span class="p">[</span><span class="s2">&quot;Bagging&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">evaluate_model</span><span class="p">(</span><span class="n">BaggingClassifier</span><span class="p">(</span><span class="n">estimator</span><span class="o">=</span><span class="n">GaussianNB</span><span class="p">(),</span> <span class="n">n_estimators</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">),</span> <span class="n">X_res_ada</span><span class="p">,</span> <span class="n">y_res_ada</span><span class="p">))</span>
+
+<span class="c1"># ======================</span>
+<span class="c1"># Visualisasi hasil</span>
+<span class="c1"># ======================</span>
+<span class="n">x</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">labels</span><span class="p">))</span>
+<span class="n">width</span> <span class="o">=</span> <span class="mf">0.25</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">([</span><span class="n">i</span> <span class="o">-</span> <span class="n">width</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">x</span><span class="p">],</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;Naive Bayes&quot;</span><span class="p">],</span> <span class="n">width</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Naive Bayes&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;skyblue&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;Random Forest&quot;</span><span class="p">],</span> <span class="n">width</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Random Forest&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;lightgreen&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">bar</span><span class="p">([</span><span class="n">i</span> <span class="o">+</span> <span class="n">width</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">x</span><span class="p">],</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;Bagging&quot;</span><span class="p">],</span> <span class="n">width</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;Bagging (NB)&quot;</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;salmon&quot;</span><span class="p">)</span>
+
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">labels</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Akurasi&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Perbandingan Akurasi Model (Original vs SMOTE vs ADASYN)&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylim</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages\sklearn\naive_bayes.py:509: RuntimeWarning: divide by zero encountered in log
+  jointi = np.log(self.class_prior_[i])
+c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages\sklearn\naive_bayes.py:509: RuntimeWarning: divide by zero encountered in log
+  jointi = np.log(self.class_prior_[i])
+c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages\sklearn\naive_bayes.py:509: RuntimeWarning: divide by zero encountered in log
+  jointi = np.log(self.class_prior_[i])
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ADASYN gagal, pakai hasil SMOTE sebagai gantinya
+</pre></div>
+</div>
+<img alt="_images/44230c0968a598b28664f6b1ebd32d32a1524b745d3fd9ad391ea519190df9c4.png" src="_images/44230c0968a598b28664f6b1ebd32d32a1524b745d3fd9ad391ea519190df9c4.png" />
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">X_filtered</span><span class="p">,</span> <span class="n">y_filtered</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">stratify</span><span class="o">=</span><span class="n">y_filtered</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;TOTAL -&gt; train:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_train</span><span class="p">),</span> <span class="s2">&quot; test:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_test</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Train per kelas:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">sort_index</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Test per kelas:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">y_test</span><span class="p">)</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">sort_index</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>TOTAL -&gt; train: 240  test: 104
+
+Train per kelas:
+ 1    100
+2     54
+5     24
+6     14
+7      4
+8     36
+9      8
+Name: count, dtype: int64
+
+Test per kelas:
+ 1    43
+2    23
+5    11
+6     6
+7     1
+8    16
+9     4
+Name: count, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">imblearn.over_sampling</span><span class="w"> </span><span class="kn">import</span> <span class="n">SMOTE</span>
+
+<span class="n">smote</span> <span class="o">=</span> <span class="n">SMOTE</span><span class="p">(</span><span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">k_neighbors</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">X_res</span><span class="p">,</span> <span class="n">y_res</span> <span class="o">=</span> <span class="n">smote</span><span class="o">.</span><span class="n">fit_resample</span><span class="p">(</span><span class="n">X_filtered</span><span class="p">,</span> <span class="n">y_filtered</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;X_res type:&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">X_res</span><span class="p">),</span> <span class="s2">&quot; shape:&quot;</span><span class="p">,</span> <span class="n">X_res</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;y_res type:&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="p">(</span><span class="n">y_res</span><span class="p">),</span> <span class="s2">&quot; shape:&quot;</span><span class="p">,</span> <span class="n">y_res</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>X_res type: &lt;class &#39;numpy.ndarray&#39;&gt;  shape: (1001, 7)
+y_res type: &lt;class &#39;numpy.ndarray&#39;&gt;  shape: (1001,)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">sklearn.model_selection</span><span class="w"> </span><span class="kn">import</span> <span class="n">train_test_split</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+
+<span class="n">X_train</span><span class="p">,</span> <span class="n">X_test</span><span class="p">,</span> <span class="n">y_train</span><span class="p">,</span> <span class="n">y_test</span> <span class="o">=</span> <span class="n">train_test_split</span><span class="p">(</span>
+    <span class="n">X_res</span><span class="p">,</span> <span class="n">y_res</span><span class="p">,</span> <span class="n">test_size</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">random_state</span><span class="o">=</span><span class="mi">42</span><span class="p">,</span> <span class="n">stratify</span><span class="o">=</span><span class="n">y_res</span>
+<span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;TOTAL -&gt; train:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_train</span><span class="p">),</span> <span class="s2">&quot; test:&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">y_test</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Train per kelas:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">y_train</span><span class="p">)</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">sort_index</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Test per kelas:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">y_test</span><span class="p">)</span><span class="o">.</span><span class="n">value_counts</span><span class="p">()</span><span class="o">.</span><span class="n">sort_index</span><span class="p">())</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>TOTAL -&gt; train: 700  test: 301
+
+Train per kelas:
+ 1    100
+2    100
+5    100
+6    100
+7    100
+8    100
+9    100
+Name: count, dtype: int64
+
+Test per kelas:
+ 1    43
+2    43
+5    43
+6    43
+7    43
+8    43
+9    43
+Name: count, dtype: int64
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 
     <script type="text/x-thebe-config">
@@ -882,6 +1260,9 @@ Tidak ada nilai n_neighbors yang berhasil untuk dataset ini.
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#">TUGAS PENYEIMBANG DATA DENGAN SMOTE DAN ADASYN</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#smote">SMOTE</a></li>
 <li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#adasyn">ADASYN</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#klasifikasi-data-menggunakan-naive-bayes">KLASIFIKASI DATA MENGGUNAKAN NAIVE BAYES</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#klasifikasi-data-menggunakan-random-forest">KLASIFIKASI DATA MENGGUNAKAN RANDOM FOREST</a></li>
+<li class="toc-h1 nav-item toc-entry"><a class="reference internal nav-link" href="#tugas-klasifikasi-menggunakan-naive-bayes">Tugas : Klasifikasi menggunakan Naive Bayes</a></li>
 </ul>
 
   </nav></div>
