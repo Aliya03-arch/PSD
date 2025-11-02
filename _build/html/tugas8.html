@@ -1,0 +1,779 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="./" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Proses Pengumpulan Data Gas NO₂ (Nitrogen Dioksida) Dari Citra Satelit Sentinel-5P Melalui Platform OpenEO Untuk Wilayah Kabupaten Pamekasan, Jawa Timur. &#8212; My sample book</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="_static/doctools.js?v=9a2dae69"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="_static/copybutton.js?v=f281be69"></script>
+    <script src="_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'tugas8';</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="PRA UTS PSD_B_Aliya Zulfa Syafitri_23-157" href="PRA_UTS.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="intro.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="_static/logo.png" class="logo__image only-light" alt="My sample book - Home"/>
+    <script>document.write(`<img src="_static/logo.png" class="logo__image only-dark" alt="My sample book - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="intro.html">
+                    Welcome to my Jupyter Book
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="tugas1.html">Business Understanding CRISP DM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tugas2.html">Data Understanding CRISP DM</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tugas3.html">TUGAS</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tugas4.html">TUGAS</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="tugas5.html">DATA PREPOCESSING</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="tugas6.html">TUGAS MENGGABUNGKAN DATA</a></li>
+
+<li class="toctree-l1"><a class="reference internal" href="tugas7.html">TUGAS PENYEIMBANG DATA DENGAN SMOTE DAN ADASYN</a></li>
+
+
+
+
+
+<li class="toctree-l1"><a class="reference internal" href="Data%20Prepocessing.html">Data Preprocessing</a></li>
+
+
+<li class="toctree-l1"><a class="reference internal" href="PRA_UTS.html">PRA UTS PSD_B_Aliya Zulfa Syafitri_23-157</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Proses Pengumpulan Data Gas NO₂ (Nitrogen Dioksida) Dari Citra Satelit Sentinel-5P Melalui Platform OpenEO Untuk Wilayah Kabupaten Pamekasan, Jawa Timur.</a></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-source-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Source repositories">
+    <i class="fab fa-github"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book" target="_blank"
+   class="btn btn-sm btn-source-repository-button dropdown-item"
+   title="Source repository"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fab fa-github"></i>
+  </span>
+<span class="btn__text-container">Repository</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li><a href="https://github.com/executablebooks/jupyter-book/issues/new?title=Issue%20on%20page%20%2Ftugas8.html&body=Your%20issue%20content%20here." target="_blank"
+   class="btn btn-sm btn-source-issues-button dropdown-item"
+   title="Open an issue"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-lightbulb"></i>
+  </span>
+<span class="btn__text-container">Open issue</span>
+</a>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="_sources/tugas8.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Proses Pengumpulan Data Gas NO₂ (Nitrogen Dioksida) Dari Citra Satelit Sentinel-5P Melalui Platform OpenEO Untuk Wilayah Kabupaten Pamekasan, Jawa Timur.</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="proses-pengumpulan-data-gas-no2-nitrogen-dioksida-dari-citra-satelit-sentinel-5p-melalui-platform-openeo-untuk-wilayah-kabupaten-pamekasan-jawa-timur">
+<h1>Proses Pengumpulan Data Gas NO₂ (Nitrogen Dioksida) Dari Citra Satelit Sentinel-5P Melalui Platform OpenEO Untuk Wilayah Kabupaten Pamekasan, Jawa Timur.<a class="headerlink" href="#proses-pengumpulan-data-gas-no2-nitrogen-dioksida-dari-citra-satelit-sentinel-5p-melalui-platform-openeo-untuk-wilayah-kabupaten-pamekasan-jawa-timur" title="Link to this heading">#</a></h1>
+<ol class="arabic simple">
+<li><p>Import dan Setup Awal</p></li>
+</ol>
+<p>import openeo
+import pandas as pd
+import os
+import time</p>
+<p>Penjelasan:</p>
+<p>Program mengimpor pustaka yang dibutuhkan, yaitu:</p>
+<ul class="simple">
+<li><p>openeo: library untuk koneksi dan pemrosesan data satelit via API Copernicus.</p></li>
+<li><p>pandas: untuk manipulasi dan analisis data hasil (CSV, tabel, dll).</p></li>
+<li><p>os: untuk akses file di folder lokal.</p></li>
+<li><p>time: digunakan untuk memberi jeda saat menunggu job selesai.
+Kemudian, program membuat koneksi ke server OpenEO Copernicus Data Space dan melakukan autentikasi menggunakan OpenID Connect agar dapat mengakses dataset Sentinel-5P.</p></li>
+</ul>
+<ol class="arabic simple" start="2">
+<li><p>Koneksi ke Copernicus Data Space</p></li>
+</ol>
+<p>connection = openeo.connect(”<a class="reference external" href="http://openeo.dataspace.copernicus.eu">openeo.dataspace.copernicus.eu</a>”).authenticate_oidc()</p>
+<p>Penjelasan:</p>
+<p>Menghubungkan Python ke OpenEO server milik Copernicus.</p>
+<ul class="simple">
+<li><p>authenticate_oidc(): autentikasi login via OpenID Connect (biasanya muncul pop-up login akun Copernicus).</p></li>
+</ul>
+<ol class="arabic simple" start="3">
+<li><p>Menentukan Area of Interest (AOI)</p></li>
+</ol>
+<p>aoi = {
+“type”: “Polygon”,
+“coordinates”: [
+[
+[113.45, -7.12],  # barat laut
+[113.45, -7.20],  # barat daya
+[113.55, -7.20],  # tenggara
+[113.55, -7.12],  # timur laut
+[113.45, -7.12],  # kembali ke titik awal
+]
+],
+}</p>
+<p>Penjelasan:</p>
+<p>Program mendefinisikan wilayah pengamatan (AOI) dalam format GeoJSON Polygon.
+Koordinat yang digunakan mencakup area di sekitar Kota Pamekasan dan sekitarnya dengan batas:</p>
+<ul class="simple">
+<li><p>Barat: 113.45° BT</p></li>
+<li><p>Timur: 113.55° BT</p></li>
+<li><p>Utara: −7.12° LS</p></li>
+<li><p>Selatan: −7.20° LS
+AOI ini digunakan untuk memfilter area pengambilan data Sentinel-5P agar hanya mencakup wilayah yang relevan.</p></li>
+</ul>
+<ol class="arabic simple" start="4">
+<li><p>Mengambil Data Sentinel-5P</p></li>
+</ol>
+<p>s5p = connection.load_collection(
+“SENTINEL_5P_L2”,
+spatial_extent={
+“west”: 113.45,
+“south”: -7.20,
+“east”: 113.55,
+“north”: -7.12,
+},
+temporal_extent=[“2024-10-01”, “2025-10-31”],
+bands=[“NO2”],
+)</p>
+<p>Penjelasan:</p>
+<ul class="simple">
+<li><p>load_collection: mengambil data citra dari koleksi satelit tertentu.</p></li>
+<li><p>“SENTINEL_5P_L2”: dataset Sentinel-5P level 2 (NO₂, CO, O₃, dll).</p></li>
+<li><p>spatial_extent: batas area (sesuai AOI).</p></li>
+<li><p>temporal_extent: rentang waktu (1 Oktober 2024 s/d 31 Oktober 2025).</p></li>
+<li><p>bands=[“NO2”]: hanya mengambil kanal gas Nitrogen Dioksida (NO₂).
+Program memanggil dataset SENTINEL_5P_L2 dan mengambil band “NO₂” (Nitrogen Dioksida) dalam rentang waktu 1 Oktober 2024 hingga 31 Oktober 2025.
+Parameter spatial_extent dan temporal_extent memastikan hanya data dari wilayah dan waktu tersebut yang diambil.</p></li>
+</ul>
+<ol class="arabic simple" start="5">
+<li><p>Masking Nilai Negatif</p></li>
+</ol>
+<p>def mask_invalid(x):
+return x &lt; 0</p>
+<p>s5p_masked = s5p.mask(s5p.apply(mask_invalid))</p>
+<p>Penjelasan:</p>
+<ul class="simple">
+<li><p>Beberapa data satelit bisa bernilai negatif akibat noise atau kesalahan pengukuran.</p></li>
+<li><p>Fungsi ini memfilter nilai negatif (tidak valid) agar tidak ikut dihitung.
+Program membuat fungsi mask_invalid() untuk menandai nilai-nilai NO₂ yang tidak valid (negatif). Nilai negatif tidak masuk akal secara ilmiah, sehingga data tersebut dihapus (dimasking).</p></li>
+</ul>
+<ol class="arabic simple" start="6">
+<li><p>Agregasi Temporal (Rata-rata Harian)</p></li>
+</ol>
+<p>daily_mean = s5p_masked.aggregate_temporal_period(period=”day”, reducer=”mean”)</p>
+<p>Penjelasan:</p>
+<ul class="simple">
+<li><p>Mengubah data per-pixel per-waktu menjadi rata-rata harian.</p></li>
+<li><p>period=”day”: hitung rata-rata untuk setiap hari.</p></li>
+<li><p>reducer=”mean”: fungsi agregasi yang digunakan adalah rata-rata.
+Data citra satelit Sentinel-5P dikumpulkan secara harian (daily) dengan menghitung nilai rata-rata NO₂ setiap hari (aggregate_temporal_period(period=”day”, reducer=”mean”)).
+Langkah ini mengubah data spasial harian menjadi time series yang mudah dianalisis.</p></li>
+</ul>
+<ol class="arabic simple" start="7">
+<li><p>Agregasi Spasial (Rata-rata Wilayah AOI)</p></li>
+</ol>
+<p>daily_mean_aoi = daily_mean.aggregate_spatial(geometries=aoi, reducer=”mean”)</p>
+<p>Penjelasan:</p>
+<ul class="simple">
+<li><p>Menghitung rata-rata NO₂ di seluruh area Pamekasan untuk setiap tanggal.</p></li>
+<li><p>Hasilnya: 1 nilai NO₂ per hari.
+Setelah agregasi temporal, program menghitung rata-rata spasial di dalam area AOI (aggregate_spatial).
+Hasilnya adalah satu nilai rata-rata NO₂ per hari untuk seluruh wilayah Pamekasan.</p></li>
+</ul>
+<ol class="arabic simple" start="8">
+<li><p>Eksekusi Batch Job</p></li>
+</ol>
+<p>job = daily_mean_aoi.execute_batch(out_format=”CSV”)
+print(“\nMenunggu job OpenEO selesai…”)</p>
+<p>Penjelasan:</p>
+<ul class="simple">
+<li><p>execute_batch(): mengirim perintah ke server OpenEO agar memproses semua data.</p></li>
+<li><p>out_format=”CSV”: hasil akhir disimpan dalam format CSV.
+Seluruh proses di atas dijalankan sebagai batch job di server Copernicus.
+Program menunggu hingga status job berubah menjadi finished, dengan pengecekan berkala setiap 15 detik. Jika job gagal, program akan menampilkan pesan error.</p></li>
+</ul>
+<ol class="arabic simple" start="9">
+<li><p>Monitoring Status Job</p></li>
+</ol>
+<p>while True:
+status = job.describe()[“status”]
+print(f”Status: {status}”)
+if status == “finished”:
+break
+elif status == “error”:
+raise RuntimeError(“Job gagal”)
+time.sleep(15)</p>
+<p>Penjelasan:</p>
+<ul class="simple">
+<li><p>Mengecek status job setiap 15 detik.</p></li>
+<li><p>Jika status berubah jadi “finished”, proses lanjut.</p></li>
+<li><p>Jika “error”, program berhenti dengan pesan kesalahan.
+Setelah job selesai, hasil perhitungan dikemas dalam format CSV dan diunduh ke folder lokal bernama “no2_results”.
+Program memastikan setidaknya satu file CSV berhasil diunduh.</p></li>
+</ul>
+<ol class="arabic simple" start="10">
+<li><p>Membaca dan Membersihkan Data</p></li>
+</ol>
+<p>if “date” in df.columns:
+df[“date”] = pd.to_datetime(df[“date”], errors=”coerce”)
+df = df.sort_values(“date”).reset_index(drop=True)
+df.to_csv(“timeseries.csv”, index=False)</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>print(f&quot;\nData berhasil dikumpulkan&quot;)
+print(f&quot;  - Total records: {len(df)}&quot;)
+print(f&quot;  - Periode: {df[&#39;date&#39;].min()} hingga {df[&#39;date&#39;].max()}&quot;)
+print(f&quot;  - File: timeseries.csv&quot;)
+print(f&quot;\nData pertama (5 baris):&quot;)
+print(df.head())
+</pre></div>
+</div>
+<p>else:
+print(“\n⚠️ Tidak ditemukan kolom ‘date’ dalam hasil CSV. Cek format hasil dari OpenEO.”)</p>
+<p>Penjelasan:</p>
+<p>File CSV hasil unduhan dibaca menggunakan pandas. Kolom date diubah menjadi format tanggal (datetime) dan data diurutkan berdasarkan waktu.
+File hasil akhir disimpan sebagai timeseries.csv.</p>
+<ol class="arabic simple" start="11">
+<li><p>Output Informasi</p></li>
+</ol>
+<p>Program menampilkan ringkasan hasil, termasuk:</p>
+<ul class="simple">
+<li><p>Jumlah total record data NO₂ harian,</p></li>
+<li><p>Rentang tanggal pengamatan,</p></li>
+<li><p>Nama file hasil (timeseries.csv), serta</p></li>
+<li><p>Lima baris pertama dari data.</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Kode</span>
+
+<span class="n">pip</span> <span class="n">install</span> <span class="n">openeo</span>
+
+<span class="c1"># ==============================================================</span>
+<span class="c1"># LANGKAH 1: PENGUMPULAN DATA - Sentinel-5P NO2 di Pamekasan, Madura</span>
+<span class="c1"># ==============================================================</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">openeo</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="o">*</span><span class="mi">70</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;LANGKAH 1: PENGUMPULAN DATA &quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span><span class="o">*</span><span class="mi">70</span><span class="p">)</span>
+
+<span class="c1"># 1. Koneksi ke Copernicus Data Space</span>
+<span class="n">connection</span> <span class="o">=</span> <span class="n">openeo</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="s2">&quot;openeo.dataspace.copernicus.eu&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">authenticate_oidc</span><span class="p">()</span>
+
+<span class="c1"># 2. Area of Interest (AOI) - Sekitar Kabupaten Pamekasan, Jawa Timur</span>
+<span class="n">aoi</span> <span class="o">=</span> <span class="p">{</span>
+    <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="s2">&quot;Polygon&quot;</span><span class="p">,</span>
+    <span class="s2">&quot;coordinates&quot;</span><span class="p">:</span> <span class="p">[</span>
+        <span class="p">[</span>
+            <span class="p">[</span><span class="mf">113.45</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.12</span><span class="p">],</span>  <span class="c1"># barat laut</span>
+            <span class="p">[</span><span class="mf">113.45</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.20</span><span class="p">],</span>  <span class="c1"># barat daya</span>
+            <span class="p">[</span><span class="mf">113.55</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.20</span><span class="p">],</span>  <span class="c1"># tenggara</span>
+            <span class="p">[</span><span class="mf">113.55</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.12</span><span class="p">],</span>  <span class="c1"># timur laut</span>
+            <span class="p">[</span><span class="mf">113.45</span><span class="p">,</span> <span class="o">-</span><span class="mf">7.12</span><span class="p">],</span>  <span class="c1"># kembali ke titik awal</span>
+        <span class="p">]</span>
+    <span class="p">],</span>
+<span class="p">}</span>
+
+<span class="c1"># 3. Load data Sentinel-5P NO2</span>
+<span class="n">s5p</span> <span class="o">=</span> <span class="n">connection</span><span class="o">.</span><span class="n">load_collection</span><span class="p">(</span>
+    <span class="s2">&quot;SENTINEL_5P_L2&quot;</span><span class="p">,</span>
+    <span class="n">spatial_extent</span><span class="o">=</span><span class="p">{</span>
+        <span class="s2">&quot;west&quot;</span><span class="p">:</span> <span class="mf">113.45</span><span class="p">,</span>
+        <span class="s2">&quot;south&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mf">7.20</span><span class="p">,</span>
+        <span class="s2">&quot;east&quot;</span><span class="p">:</span> <span class="mf">113.55</span><span class="p">,</span>
+        <span class="s2">&quot;north&quot;</span><span class="p">:</span> <span class="o">-</span><span class="mf">7.12</span><span class="p">,</span>
+    <span class="p">},</span>
+    <span class="n">temporal_extent</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;2024-10-01&quot;</span><span class="p">,</span> <span class="s2">&quot;2025-10-31&quot;</span><span class="p">],</span> 
+    <span class="n">bands</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;NO2&quot;</span><span class="p">],</span>
+<span class="p">)</span>
+
+<span class="c1"># 4. Mask nilai negatif</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">mask_invalid</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span>
+
+<span class="n">s5p_masked</span> <span class="o">=</span> <span class="n">s5p</span><span class="o">.</span><span class="n">mask</span><span class="p">(</span><span class="n">s5p</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">mask_invalid</span><span class="p">))</span>
+
+<span class="c1"># 5. Agregasi temporal (harian)</span>
+<span class="n">daily_mean</span> <span class="o">=</span> <span class="n">s5p_masked</span><span class="o">.</span><span class="n">aggregate_temporal_period</span><span class="p">(</span><span class="n">period</span><span class="o">=</span><span class="s2">&quot;day&quot;</span><span class="p">,</span> <span class="n">reducer</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span><span class="p">)</span>
+
+<span class="c1"># 6. Agregasi spasial (mean dalam AOI)</span>
+<span class="n">daily_mean_aoi</span> <span class="o">=</span> <span class="n">daily_mean</span><span class="o">.</span><span class="n">aggregate_spatial</span><span class="p">(</span><span class="n">geometries</span><span class="o">=</span><span class="n">aoi</span><span class="p">,</span> <span class="n">reducer</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span><span class="p">)</span>
+
+<span class="c1"># 7. Jalankan batch job</span>
+<span class="n">job</span> <span class="o">=</span> <span class="n">daily_mean_aoi</span><span class="o">.</span><span class="n">execute_batch</span><span class="p">(</span><span class="n">out_format</span><span class="o">=</span><span class="s2">&quot;CSV&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Menunggu job OpenEO selesai...&quot;</span><span class="p">)</span>
+
+<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">status</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">describe</span><span class="p">()[</span><span class="s2">&quot;status&quot;</span><span class="p">]</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Status: </span><span class="si">{</span><span class="n">status</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">status</span> <span class="o">==</span> <span class="s2">&quot;finished&quot;</span><span class="p">:</span>
+        <span class="k">break</span>
+    <span class="k">elif</span> <span class="n">status</span> <span class="o">==</span> <span class="s2">&quot;error&quot;</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Job gagal&quot;</span><span class="p">)</span>
+    <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mi">15</span><span class="p">)</span>
+
+<span class="c1"># 8. Unduh hasil</span>
+<span class="n">results</span> <span class="o">=</span> <span class="n">job</span><span class="o">.</span><span class="n">get_results</span><span class="p">()</span>
+<span class="n">results</span><span class="o">.</span><span class="n">download_files</span><span class="p">(</span><span class="s2">&quot;no2_results&quot;</span><span class="p">)</span>
+
+<span class="c1"># 9. Baca file CSV</span>
+<span class="n">csv_files</span> <span class="o">=</span> <span class="p">[</span><span class="n">f</span> <span class="k">for</span> <span class="n">f</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="s2">&quot;no2_results&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">f</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;.csv&quot;</span><span class="p">)]</span>
+<span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">csv_files</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="s2">&quot;Tidak ada file CSV yang diunduh dari hasil OpenEO.&quot;</span><span class="p">)</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="s2">&quot;no2_results&quot;</span><span class="p">,</span> <span class="n">csv_files</span><span class="p">[</span><span class="mi">0</span><span class="p">]))</span>
+
+<span class="c1"># 10. Data preprocessing</span>
+<span class="k">if</span> <span class="s2">&quot;date&quot;</span> <span class="ow">in</span> <span class="n">df</span><span class="o">.</span><span class="n">columns</span><span class="p">:</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;date&quot;</span><span class="p">],</span> <span class="n">errors</span><span class="o">=</span><span class="s2">&quot;coerce&quot;</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_values</span><span class="p">(</span><span class="s2">&quot;date&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">reset_index</span><span class="p">(</span><span class="n">drop</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="s2">&quot;timeseries.csv&quot;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Data berhasil dikumpulkan&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  - Total records: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">df</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  - Periode: </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">()</span><span class="si">}</span><span class="s2"> hingga </span><span class="si">{</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;date&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">()</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  - File: timeseries.csv&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Data pertama (5 baris):&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">())</span>
+<span class="k">else</span><span class="p">:</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">⚠️ Tidak ditemukan kolom &#39;date&#39; dalam hasil CSV. Cek format hasil dari OpenEO.&quot;</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span>  <span class="n">Cell</span> <span class="n">In</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">line</span> <span class="mi">3</span>
+    <span class="n">pip</span> <span class="n">install</span> <span class="n">openeo</span>
+        <span class="o">^</span>
+<span class="ne">SyntaxError</span>: invalid syntax
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./."
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="PRA_UTS.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">PRA UTS PSD_B_Aliya Zulfa Syafitri_23-157</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By The Jupyter Book Community
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>
