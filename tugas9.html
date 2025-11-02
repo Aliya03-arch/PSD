@@ -410,6 +410,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-hasil-aktual-vs-prediksi-1-day-dan-horizon-day">Plot hasil aktual vs prediksi (1-day dan HORIZON-day)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simpan-hasil-prediksi-ke-csv">Simpan hasil prediksi ke CSV</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contoh-flask-deploy-file-dibuat-otomatis">Contoh Flask deploy file (dibuat otomatis)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementasi-no2-multi-day-forecast-pipeline-menggunakan-streamlit">Implementasi NO2 Multi-day Forecast Pipeline Menggunakan Streamlit</a></li>
 </ul>
             </nav>
         </div>
@@ -1304,47 +1305,449 @@ lag 14: 0.810
 <h2>Contoh Flask deploy file (dibuat otomatis)<a class="headerlink" href="#contoh-flask-deploy-file-dibuat-otomatis" title="Link to this heading">#</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Cell 14: Tulis file contoh Flask untuk deploy</span>
-<span class="n">flask_code</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;&quot;&quot;</span>
-<span class="s2">from flask import Flask, request, jsonify</span>
-<span class="s2">import joblib</span>
-<span class="s2">import numpy as np</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">streamlit</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">st</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">joblib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
 
-<span class="s2">app = Flask(__name__)</span>
-<span class="s2">model = joblib.load(&quot;model_rf_multioutput.joblib&quot;)</span>
-<span class="s2">scaler_X = joblib.load(&quot;scaler_X.joblib&quot;)</span>
-<span class="s2">scaler_y = joblib.load(&quot;scaler_y.joblib&quot;)</span>
+<span class="c1"># ======================</span>
+<span class="c1"># LOAD MODEL &amp; SCALER</span>
+<span class="c1"># ======================</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">joblib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;model_rf_multioutput.joblib&quot;</span><span class="p">)</span>
+<span class="n">scaler_X</span> <span class="o">=</span> <span class="n">joblib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;scaler_X.joblib&quot;</span><span class="p">)</span>
+<span class="n">scaler_y</span> <span class="o">=</span> <span class="n">joblib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;scaler_y.joblib&quot;</span><span class="p">)</span>
 
-<span class="s2">@app.route(&quot;/predict&quot;, methods=[&quot;POST&quot;])</span>
-<span class="s2">def predict():</span>
-<span class="s2">    data = request.json</span>
-<span class="s2">    lags = data.get(&quot;lags&quot;)</span>
-<span class="s2">    if lags is None or len(lags) != 14:</span>
-<span class="s2">        return {&quot;error&quot;: &quot;provide &#39;lags&#39; list of length 14 (lag_1...lag_14)&quot;}, 400</span>
-<span class="s2">    lags = np.array(lags).reshape(1, -1)</span>
-<span class="s2">    Xs = scaler_X.transform(lags)</span>
-<span class="s2">    y_s = model.predict(Xs)</span>
-<span class="s2">    y = scaler_y.inverse_transform(y_s)</span>
-<span class="s2">    return jsonify({&quot;forecast_7days&quot;: y.tolist()[0]})</span>
+<span class="n">st</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;🌫️ Prediksi NO₂ - 7 Hari ke Depan&quot;</span><span class="p">)</span>
+<span class="n">st</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&quot;Masukkan 14 nilai lag (lag_1 sampai lag_14) untuk memprediksi kadar NO₂ selama 7 hari ke depan.&quot;</span><span class="p">)</span>
 
-<span class="s2">if __name__ == &quot;__main__&quot;:</span>
-<span class="s2">    app.run(host=&quot;0.0.0.0&quot;, port=5000)</span>
-<span class="s2">&quot;&quot;&quot;</span>
-<span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&quot;app_flask_deploy_example.py&quot;</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
-    <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">flask_code</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+<span class="c1"># ======================</span>
+<span class="c1"># INPUT FORM</span>
+<span class="c1"># ======================</span>
+<span class="n">lags</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="n">cols</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">columns</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
 
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Saved Flask example: app_flask_deploy_example.py&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Selesai. File yang dibuat: predictions.csv, model_* .joblib, scaler_*.joblib, app_flask_deploy_example.py&quot;</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">14</span><span class="p">):</span>
+    <span class="k">with</span> <span class="n">cols</span><span class="p">[</span><span class="n">i</span> <span class="o">%</span> <span class="mi">7</span><span class="p">]:</span>
+        <span class="n">val</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">number_input</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Lag </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="mf">0.1</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">%.3f</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">lags</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">st</span><span class="o">.</span><span class="n">button</span><span class="p">(</span><span class="s2">&quot;🔍 Prediksi&quot;</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">lags</span><span class="p">)</span> <span class="o">==</span> <span class="mi">14</span><span class="p">:</span>
+        <span class="n">X_input</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">lags</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">X_scaled</span> <span class="o">=</span> <span class="n">scaler_X</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">X_input</span><span class="p">)</span>
+
+        <span class="n">pred_scaled</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X_scaled</span><span class="p">)</span>
+        <span class="n">pred</span> <span class="o">=</span> <span class="n">scaler_y</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">pred_scaled</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="n">future_days</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;Hari </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">7</span><span class="p">)]</span>
+        <span class="n">df_result</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">({</span><span class="s2">&quot;Hari&quot;</span><span class="p">:</span> <span class="n">future_days</span><span class="p">,</span> <span class="s2">&quot;Prediksi NO2&quot;</span><span class="p">:</span> <span class="n">pred</span><span class="p">})</span>
+
+        <span class="n">st</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="s2">&quot;✅ Prediksi berhasil!&quot;</span><span class="p">)</span>
+        <span class="n">st</span><span class="o">.</span><span class="n">dataframe</span><span class="p">(</span><span class="n">df_result</span><span class="p">)</span>
+
+        <span class="c1"># ======================</span>
+        <span class="c1"># VISUALISASI GRAFIK</span>
+        <span class="c1"># ======================</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span><span class="mi">4</span><span class="p">))</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">future_days</span><span class="p">,</span> <span class="n">pred</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="s2">&quot;o&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s2">&quot;Hari ke-&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s2">&quot;Kadar NO₂ (µg/m³)&quot;</span><span class="p">)</span>
+        <span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;Prediksi NO₂ untuk 7 Hari ke Depan&quot;</span><span class="p">)</span>
+        <span class="n">st</span><span class="o">.</span><span class="n">pyplot</span><span class="p">(</span><span class="n">plt</span><span class="p">)</span>
+
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">st</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;❌ Input tidak lengkap. Harus ada 14 nilai lag!&quot;</span><span class="p">)</span>
+
+<span class="n">st</span><span class="o">.</span><span class="n">caption</span><span class="p">(</span><span class="s2">&quot;Model: Random Forest MultiOutput | Scaler: MinMaxScaler&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Saved Flask example: app_flask_deploy_example.py
-Selesai. File yang dibuat: predictions.csv, model_* .joblib, scaler_*.joblib, app_flask_deploy_example.py
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:03.324 WARNING streamlit.runtime.scriptrunner_utils.script_run_context: Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.137 
+  <span class=" -Color -Color-Bold -Color-Bold-Yellow">Warning:</span> to view this Streamlit app on a browser, run it with the following
+  command:
+
+    streamlit run C:\Users\ThinkPad\AppData\Roaming\Python\Python310\site-packages\ipykernel_launcher.py [ARGUMENTS]
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.138 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.140 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.140 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.141 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.142 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.143 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.143 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.145 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.146 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.146 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.147 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.148 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.148 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.149 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.150 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.151 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.151 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.152 Session state does not function when running a script without `streamlit run`
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.152 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.152 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.154 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.155 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.155 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.156 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.156 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.158 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.158 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.159 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.160 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.160 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.162 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.162 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.163 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.163 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.165 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.165 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.166 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.166 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.168 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.168 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.169 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.169 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.171 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.171 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.172 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.172 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.174 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.174 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.175 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.175 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.177 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.177 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.178 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.179 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.179 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.180 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.181 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.182 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.182 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.183 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.183 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.184 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.184 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.186 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.187 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.187 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.188 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.189 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.189 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.190 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.191 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.191 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.192 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.192 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.194 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.194 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.195 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.196 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.196 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.196 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.198 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.198 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.199 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.200 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.201 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.202 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.202 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.204 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.204 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.205 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.206 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.207 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.207 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.208 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.209 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.209 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.211 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.212 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.212 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.213 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.213 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.214 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.214 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.215 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.217 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.218 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.218 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.219 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.221 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.221 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.222 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.223 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.224 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.225 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.226 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.226 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.228 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.228 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.230 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.230 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2025-11-02 23:13:04.231 Thread &#39;MainThread&#39;: missing ScriptRunContext! This warning can be ignored when running in bare mode.
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>DeltaGenerator()
 </pre></div>
 </div>
 </div>
 </div>
+</section>
+<section id="implementasi-no2-multi-day-forecast-pipeline-menggunakan-streamlit">
+<h2>Implementasi NO2 Multi-day Forecast Pipeline Menggunakan Streamlit<a class="headerlink" href="#implementasi-no2-multi-day-forecast-pipeline-menggunakan-streamlit" title="Link to this heading">#</a></h2>
+<p>Implementasi ini dilakukan dengan membangun antarmuka interaktif menggunakan Streamlit, yaitu framework berbasis Python untuk membuat aplikasi web data science secara cepat dan sederhana.</p>
+<p>Hasil Prediksi:</p>
+<p><img alt="image15.png" src="attachment:image15.png" /></p>
 </section>
 </section>
 
@@ -1425,6 +1828,7 @@ Selesai. File yang dibuat: predictions.csv, model_* .joblib, scaler_*.joblib, ap
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-hasil-aktual-vs-prediksi-1-day-dan-horizon-day">Plot hasil aktual vs prediksi (1-day dan HORIZON-day)</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#simpan-hasil-prediksi-ke-csv">Simpan hasil prediksi ke CSV</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#contoh-flask-deploy-file-dibuat-otomatis">Contoh Flask deploy file (dibuat otomatis)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementasi-no2-multi-day-forecast-pipeline-menggunakan-streamlit">Implementasi NO2 Multi-day Forecast Pipeline Menggunakan Streamlit</a></li>
 </ul>
   </nav></div>
 

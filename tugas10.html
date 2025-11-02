@@ -403,6 +403,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-knn-randomforest">Training KNN &amp; RandomForest</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classifier-dan-encode-labelnya">Classifier dan Encode Labelnya</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-grafik-akurasi">Plot Grafik Akurasi</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementasi-prediksi-audio-buka-atau-tutup-menggunakan-streamlit">Implementasi Prediksi Audio ‘Buka atau Tutup’ Menggunakan Streamlit</a></li>
 </ul>
             </nav>
         </div>
@@ -444,61 +445,61 @@ Requirement already satisfied: pandas in c:\users\thinkpad\appdata\local\program
 Requirement already satisfied: scikit-learn in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (1.7.2)
 Requirement already satisfied: matplotlib in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (3.10.6)
 Requirement already satisfied: streamlit in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (1.51.0)
-Requirement already satisfied: pooch&gt;=1.1 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from librosa) (1.8.2)
+Requirement already satisfied: lazy_loader&gt;=0.1 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from librosa) (0.4)
+Requirement already satisfied: soxr&gt;=0.3.2 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from librosa) (1.0.0)
+Requirement already satisfied: msgpack&gt;=1.0 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from librosa) (1.1.2)
 Requirement already satisfied: decorator&gt;=4.3.0 in c:\users\thinkpad\appdata\roaming\python\python310\site-packages (from librosa) (5.2.1)
+Requirement already satisfied: soundfile&gt;=0.12.1 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from librosa) (0.13.1)
 Requirement already satisfied: scipy&gt;=1.6.0 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from librosa) (1.15.3)
 Requirement already satisfied: typing_extensions&gt;=4.1.1 in c:\users\thinkpad\appdata\roaming\python\python310\site-packages (from librosa) (4.15.0)
-Requirement already satisfied: lazy_loader&gt;=0.1 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from librosa) (0.4)
-Requirement already satisfied: audioread&gt;=2.1.9 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from librosa) (3.1.0)
-Requirement already satisfied: msgpack&gt;=1.0 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from librosa) (1.1.2)
-Requirement already satisfied: soxr&gt;=0.3.2 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from librosa) (1.0.0)
-Requirement already satisfied: soundfile&gt;=0.12.1 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from librosa) (0.13.1)
 Requirement already satisfied: joblib&gt;=1.0 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from librosa) (1.5.2)
 Requirement already satisfied: numba&gt;=0.51.0 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from librosa) (0.62.1)
+Requirement already satisfied: audioread&gt;=2.1.9 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from librosa) (3.1.0)
+Requirement already satisfied: pooch&gt;=1.1 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from librosa) (1.8.2)
+Requirement already satisfied: pytz&gt;=2020.1 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from pandas) (2025.2)
 Requirement already satisfied: tzdata&gt;=2022.7 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from pandas) (2025.2)
 Requirement already satisfied: python-dateutil&gt;=2.8.2 in c:\users\thinkpad\appdata\roaming\python\python310\site-packages (from pandas) (2.9.0.post0)
-Requirement already satisfied: pytz&gt;=2020.1 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from pandas) (2025.2)
 Requirement already satisfied: threadpoolctl&gt;=3.1.0 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from scikit-learn) (3.6.0)
-Requirement already satisfied: kiwisolver&gt;=1.3.1 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from matplotlib) (1.4.9)
-Requirement already satisfied: pillow&gt;=8 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from matplotlib) (11.3.0)
-Requirement already satisfied: cycler&gt;=0.10 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from matplotlib) (0.12.1)
 Requirement already satisfied: fonttools&gt;=4.22.0 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from matplotlib) (4.60.0)
-Requirement already satisfied: pyparsing&gt;=2.3.1 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from matplotlib) (3.2.5)
 Requirement already satisfied: contourpy&gt;=1.0.1 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from matplotlib) (1.3.2)
 Requirement already satisfied: packaging&gt;=20.0 in c:\users\thinkpad\appdata\roaming\python\python310\site-packages (from matplotlib) (25.0)
-Requirement already satisfied: pyarrow&lt;22,&gt;=7.0 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from streamlit) (21.0.0)
+Requirement already satisfied: kiwisolver&gt;=1.3.1 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from matplotlib) (1.4.9)
+Requirement already satisfied: pyparsing&gt;=2.3.1 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from matplotlib) (3.2.5)
+Requirement already satisfied: pillow&gt;=8 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from matplotlib) (11.3.0)
+Requirement already satisfied: cycler&gt;=0.10 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from matplotlib) (0.12.1)
 Requirement already satisfied: toml&lt;2,&gt;=0.10.1 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from streamlit) (0.10.2)
-Requirement already satisfied: cachetools&lt;7,&gt;=4.0 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from streamlit) (6.2.1)
-Requirement already satisfied: tenacity&lt;10,&gt;=8.1.0 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from streamlit) (9.1.2)
 Requirement already satisfied: pydeck&lt;1,&gt;=0.8.0b4 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from streamlit) (0.9.1)
-Requirement already satisfied: watchdog&lt;7,&gt;=2.1.5 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from streamlit) (6.0.0)
-Requirement already satisfied: protobuf&lt;7,&gt;=3.20 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from streamlit) (6.33.0)
-Requirement already satisfied: blinker&lt;2,&gt;=1.5.0 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from streamlit) (1.9.0)
-Requirement already satisfied: tornado!=6.5.0,&lt;7,&gt;=6.0.3 in c:\users\thinkpad\appdata\roaming\python\python310\site-packages (from streamlit) (6.5.2)
-Requirement already satisfied: requests&lt;3,&gt;=2.27 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from streamlit) (2.32.5)
-Requirement already satisfied: gitpython!=3.1.19,&lt;4,&gt;=3.0.7 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from streamlit) (3.1.45)
 Requirement already satisfied: altair!=5.4.0,!=5.4.1,&lt;6,&gt;=4.0 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from streamlit) (5.5.0)
+Requirement already satisfied: tornado!=6.5.0,&lt;7,&gt;=6.0.3 in c:\users\thinkpad\appdata\roaming\python\python310\site-packages (from streamlit) (6.5.2)
 Requirement already satisfied: click&lt;9,&gt;=7.0 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from streamlit) (8.3.0)
-Requirement already satisfied: jinja2 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from altair!=5.4.0,!=5.4.1,&lt;6,&gt;=4.0-&gt;streamlit) (3.1.6)
-Requirement already satisfied: jsonschema&gt;=3.0 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from altair!=5.4.0,!=5.4.1,&lt;6,&gt;=4.0-&gt;streamlit) (4.25.1)
+Requirement already satisfied: pyarrow&lt;22,&gt;=7.0 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from streamlit) (21.0.0)
+Requirement already satisfied: gitpython!=3.1.19,&lt;4,&gt;=3.0.7 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from streamlit) (3.1.45)
+Requirement already satisfied: cachetools&lt;7,&gt;=4.0 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from streamlit) (6.2.1)
+Requirement already satisfied: requests&lt;3,&gt;=2.27 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from streamlit) (2.32.5)
+Requirement already satisfied: tenacity&lt;10,&gt;=8.1.0 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from streamlit) (9.1.2)
+Requirement already satisfied: protobuf&lt;7,&gt;=3.20 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from streamlit) (6.33.0)
+Requirement already satisfied: watchdog&lt;7,&gt;=2.1.5 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from streamlit) (6.0.0)
+Requirement already satisfied: blinker&lt;2,&gt;=1.5.0 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from streamlit) (1.9.0)
 Requirement already satisfied: narwhals&gt;=1.14.2 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from altair!=5.4.0,!=5.4.1,&lt;6,&gt;=4.0-&gt;streamlit) (2.10.1)
+Requirement already satisfied: jsonschema&gt;=3.0 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from altair!=5.4.0,!=5.4.1,&lt;6,&gt;=4.0-&gt;streamlit) (4.25.1)
+Requirement already satisfied: jinja2 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from altair!=5.4.0,!=5.4.1,&lt;6,&gt;=4.0-&gt;streamlit) (3.1.6)
 Requirement already satisfied: colorama in c:\users\thinkpad\appdata\roaming\python\python310\site-packages (from click&lt;9,&gt;=7.0-&gt;streamlit) (0.4.6)
 Requirement already satisfied: gitdb&lt;5,&gt;=4.0.1 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from gitpython!=3.1.19,&lt;4,&gt;=3.0.7-&gt;streamlit) (4.0.12)
 Requirement already satisfied: llvmlite&lt;0.46,&gt;=0.45.0dev0 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from numba&gt;=0.51.0-&gt;librosa) (0.45.1)
 Requirement already satisfied: platformdirs&gt;=2.5.0 in c:\users\thinkpad\appdata\roaming\python\python310\site-packages (from pooch&gt;=1.1-&gt;librosa) (4.4.0)
 Requirement already satisfied: six&gt;=1.5 in c:\users\thinkpad\appdata\roaming\python\python310\site-packages (from python-dateutil&gt;=2.8.2-&gt;pandas) (1.17.0)
+Requirement already satisfied: charset_normalizer&lt;4,&gt;=2 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from requests&lt;3,&gt;=2.27-&gt;streamlit) (3.4.4)
+Requirement already satisfied: idna&lt;4,&gt;=2.5 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from requests&lt;3,&gt;=2.27-&gt;streamlit) (3.11)
 Requirement already satisfied: urllib3&lt;3,&gt;=1.21.1 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from requests&lt;3,&gt;=2.27-&gt;streamlit) (2.5.0)
 Requirement already satisfied: certifi&gt;=2017.4.17 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from requests&lt;3,&gt;=2.27-&gt;streamlit) (2025.10.5)
-Requirement already satisfied: idna&lt;4,&gt;=2.5 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from requests&lt;3,&gt;=2.27-&gt;streamlit) (3.11)
-Requirement already satisfied: charset_normalizer&lt;4,&gt;=2 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from requests&lt;3,&gt;=2.27-&gt;streamlit) (3.4.4)
 Requirement already satisfied: cffi&gt;=1.0 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from soundfile&gt;=0.12.1-&gt;librosa) (2.0.0)
 Requirement already satisfied: pycparser in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from cffi&gt;=1.0-&gt;soundfile&gt;=0.12.1-&gt;librosa) (2.23)
 Requirement already satisfied: smmap&lt;6,&gt;=3.0.1 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from gitdb&lt;5,&gt;=4.0.1-&gt;gitpython!=3.1.19,&lt;4,&gt;=3.0.7-&gt;streamlit) (5.0.2)
 Requirement already satisfied: MarkupSafe&gt;=2.0 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from jinja2-&gt;altair!=5.4.0,!=5.4.1,&lt;6,&gt;=4.0-&gt;streamlit) (3.0.3)
-Requirement already satisfied: rpds-py&gt;=0.7.1 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from jsonschema&gt;=3.0-&gt;altair!=5.4.0,!=5.4.1,&lt;6,&gt;=4.0-&gt;streamlit) (0.28.0)
-Requirement already satisfied: referencing&gt;=0.28.4 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from jsonschema&gt;=3.0-&gt;altair!=5.4.0,!=5.4.1,&lt;6,&gt;=4.0-&gt;streamlit) (0.37.0)
-Requirement already satisfied: attrs&gt;=22.2.0 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from jsonschema&gt;=3.0-&gt;altair!=5.4.0,!=5.4.1,&lt;6,&gt;=4.0-&gt;streamlit) (25.4.0)
 Requirement already satisfied: jsonschema-specifications&gt;=2023.03.6 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from jsonschema&gt;=3.0-&gt;altair!=5.4.0,!=5.4.1,&lt;6,&gt;=4.0-&gt;streamlit) (2025.9.1)
+Requirement already satisfied: rpds-py&gt;=0.7.1 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from jsonschema&gt;=3.0-&gt;altair!=5.4.0,!=5.4.1,&lt;6,&gt;=4.0-&gt;streamlit) (0.28.0)
+Requirement already satisfied: attrs&gt;=22.2.0 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from jsonschema&gt;=3.0-&gt;altair!=5.4.0,!=5.4.1,&lt;6,&gt;=4.0-&gt;streamlit) (25.4.0)
+Requirement already satisfied: referencing&gt;=0.28.4 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from jsonschema&gt;=3.0-&gt;altair!=5.4.0,!=5.4.1,&lt;6,&gt;=4.0-&gt;streamlit) (0.37.0)
 Note: you may need to restart the kernel to use updated packages.
 </pre></div>
 </div>
@@ -737,6 +738,54 @@ weighted avg       1.00      1.00      1.00       400
 <img alt="_images/8e335d74a03a36fc43cdae438bea3cde150ee1ef673228a7e7c272d6578af6aa.png" src="_images/8e335d74a03a36fc43cdae438bea3cde150ee1ef673228a7e7c272d6578af6aa.png" />
 </div>
 </div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">streamlit</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">st</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">pandas</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">pd</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">librosa</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">joblib</span>
+
+<span class="c1"># === Load Model dan Encoder ===</span>
+<span class="n">scaler</span> <span class="o">=</span> <span class="n">joblib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;scaler.pkl&quot;</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">joblib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;rf_model.pkl&quot;</span><span class="p">)</span>
+<span class="n">label_encoder</span> <span class="o">=</span> <span class="n">joblib</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="s2">&quot;label_encoder.pkl&quot;</span><span class="p">)</span>
+
+<span class="n">st</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s2">&quot;🎙️ Klasifikasi Suara: Buka vs Tutup&quot;</span><span class="p">)</span>
+
+<span class="n">uploaded_file</span> <span class="o">=</span> <span class="n">st</span><span class="o">.</span><span class="n">file_uploader</span><span class="p">(</span><span class="s2">&quot;Unggah file audio (.wav)&quot;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="p">[</span><span class="s2">&quot;wav&quot;</span><span class="p">])</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">extract_features</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">std</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">x</span><span class="p">),</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">)),</span>
+        <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">librosa</span><span class="o">.</span><span class="n">feature</span><span class="o">.</span><span class="n">zero_crossing_rate</span><span class="p">(</span><span class="n">x</span><span class="p">)),</span>
+        <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">skew</span><span class="p">(),</span>
+        <span class="n">pd</span><span class="o">.</span><span class="n">Series</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">kurt</span><span class="p">()</span>
+    <span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="k">if</span> <span class="n">uploaded_file</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="n">st</span><span class="o">.</span><span class="n">audio</span><span class="p">(</span><span class="n">uploaded_file</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="s2">&quot;audio/wav&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Load dan ekstraksi fitur</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">sr</span> <span class="o">=</span> <span class="n">librosa</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">uploaded_file</span><span class="p">,</span> <span class="n">sr</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+    <span class="n">feat</span> <span class="o">=</span> <span class="n">extract_features</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+    <span class="n">feat_scaled</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">feat</span><span class="p">)</span>
+
+    <span class="n">pred_num</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">feat_scaled</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">pred_label</span> <span class="o">=</span> <span class="n">label_encoder</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">([</span><span class="n">pred_num</span><span class="p">])[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="n">st</span><span class="o">.</span><span class="n">success</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;🔊 Hasil Prediksi: **</span><span class="si">{</span><span class="n">pred_label</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2">**&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="implementasi-prediksi-audio-buka-atau-tutup-menggunakan-streamlit">
+<h2>Implementasi Prediksi Audio ‘Buka atau Tutup’ Menggunakan Streamlit<a class="headerlink" href="#implementasi-prediksi-audio-buka-atau-tutup-menggunakan-streamlit" title="Link to this heading">#</a></h2>
+<p>Implementasi ini dilakukan dengan membangun antarmuka interaktif menggunakan Streamlit, yaitu framework berbasis Python untuk membuat aplikasi web data science secara cepat dan sederhana.</p>
+<p>Hasil Prediksi Audio:</p>
+<p><img alt="image14.png" src="attachment:image14.png" /></p>
 </section>
 </section>
 
@@ -802,6 +851,7 @@ weighted avg       1.00      1.00      1.00       400
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#training-knn-randomforest">Training KNN &amp; RandomForest</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#classifier-dan-encode-labelnya">Classifier dan Encode Labelnya</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plot-grafik-akurasi">Plot Grafik Akurasi</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#implementasi-prediksi-audio-buka-atau-tutup-menggunakan-streamlit">Implementasi Prediksi Audio ‘Buka atau Tutup’ Menggunakan Streamlit</a></li>
 </ul>
   </nav></div>
 
