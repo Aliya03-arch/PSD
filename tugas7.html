@@ -60,7 +60,7 @@
     <script>DOCUMENTATION_OPTIONS.pagename = 'tugas7';</script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
-    <link rel="next" title="Data Preprocessing" href="Data%20Prepocessing.html" />
+    <link rel="next" title="Data Understading" href="Data_Prepocessing_Outlier.html" />
     <link rel="prev" title="TUGAS MENGGABUNGKAN DATA" href="tugas6.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -195,9 +195,13 @@
 
 
 
-<li class="toctree-l1"><a class="reference internal" href="Data%20Prepocessing.html">Data Preprocessing</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Data_Prepocessing_Outlier.html">Data Understading</a></li>
 
 
+<li class="toctree-l1"><a class="reference internal" href="PRA_UTS.html">PRA UTS PSD_B_Aliya Zulfa Syafitri_23-157</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tugas8.html">Proses Pengumpulan Data Gas NO₂ (Nitrogen Dioksida) Dari Citra Satelit Sentinel-5P Melalui Platform OpenEO Untuk Wilayah Kabupaten Pamekasan, Jawa Timur.</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tugas9.html">NO2 Multi-day Forecast Pipeline</a></li>
+<li class="toctree-l1"><a class="reference internal" href="tugas10.html">IDENTIFIKASI SUARA ‘BUKA TUTUP’ MENGGUNAKAN FEATURE STATISTIK TIME SERIES</a></li>
 </ul>
 
     </div>
@@ -420,13 +424,17 @@ document.write(`
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: imbalanced-learn in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (0.12.4)
-Requirement already satisfied: numpy&gt;=1.17.3 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from imbalanced-learn) (1.26.4)
-Requirement already satisfied: scipy&gt;=1.5.0 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from imbalanced-learn) (1.11.4)
-Requirement already satisfied: scikit-learn&gt;=1.0.2 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from imbalanced-learn) (1.4.2)
-Requirement already satisfied: joblib&gt;=1.1.1 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from imbalanced-learn) (1.3.2)
-Requirement already satisfied: threadpoolctl&gt;=2.0.0 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from imbalanced-learn) (3.6.0)
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: imbalanced-learn in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (0.14.0)
+Requirement already satisfied: threadpoolctl&lt;4,&gt;=2.0.0 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from imbalanced-learn) (3.6.0)
+Requirement already satisfied: scikit-learn&lt;2,&gt;=1.4.2 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from imbalanced-learn) (1.7.2)
+Requirement already satisfied: joblib&lt;2,&gt;=1.2.0 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from imbalanced-learn) (1.5.2)
+Requirement already satisfied: numpy&lt;3,&gt;=1.25.2 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from imbalanced-learn) (2.2.6)
+Requirement already satisfied: scipy&lt;2,&gt;=1.11.4 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from imbalanced-learn) (1.15.3)
 Note: you may need to restart the kernel to use updated packages.
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[notice] A new release of pip is available: 23.0.1 -&gt; 25.3
+[notice] To update, run: python.exe -m pip install --upgrade pip
 </pre></div>
 </div>
 </div>
@@ -438,28 +446,30 @@ Note: you may need to restart the kernel to use updated packages.
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: pandas in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (2.1.4)
-Requirement already satisfied: scikit-learn in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (1.4.2)
-Requirement already satisfied: imbalanced-learn in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (0.12.4)
-Requirement already satisfied: matplotlib in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (3.7.5)
-Requirement already satisfied: numpy&lt;2,&gt;=1.22.4 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from pandas) (1.26.4)
-Requirement already satisfied: python-dateutil&gt;=2.8.2 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from pandas) (2.9.0.post0)
-Requirement already satisfied: pytz&gt;=2020.1 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from pandas) (2025.2)
-Requirement already satisfied: tzdata&gt;=2022.1 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from pandas) (2025.2)
-Requirement already satisfied: scipy&gt;=1.6.0 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from scikit-learn) (1.11.4)
-Requirement already satisfied: joblib&gt;=1.2.0 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from scikit-learn) (1.3.2)
-Requirement already satisfied: threadpoolctl&gt;=2.0.0 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from scikit-learn) (3.6.0)
-Requirement already satisfied: contourpy&gt;=1.0.1 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from matplotlib) (1.3.0)
-Requirement already satisfied: cycler&gt;=0.10 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from matplotlib) (0.12.1)
-Requirement already satisfied: fonttools&gt;=4.22.0 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from matplotlib) (4.59.2)
-Requirement already satisfied: kiwisolver&gt;=1.0.1 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from matplotlib) (1.4.7)
-Requirement already satisfied: packaging&gt;=20.0 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from matplotlib) (25.0)
-Requirement already satisfied: pillow&gt;=6.2.0 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from matplotlib) (11.3.0)
-Requirement already satisfied: pyparsing&gt;=2.3.1 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from matplotlib) (3.2.3)
-Requirement already satisfied: importlib-resources&gt;=3.2.0 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from matplotlib) (6.5.2)
-Requirement already satisfied: zipp&gt;=3.1.0 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from importlib-resources&gt;=3.2.0-&gt;matplotlib) (3.23.0)
-Requirement already satisfied: six&gt;=1.5 in c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages (from python-dateutil&gt;=2.8.2-&gt;pandas) (1.17.0)
-Note: you may need to restart the kernel to use updated packages.
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Requirement already satisfied: pandas in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (2.3.2)Note: you may need to restart the kernel to use updated packages.
+
+Requirement already satisfied: scikit-learn in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (1.7.2)
+Requirement already satisfied: imbalanced-learn in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (0.14.0)
+Requirement already satisfied: matplotlib in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (3.10.6)
+Requirement already satisfied: tzdata&gt;=2022.7 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from pandas) (2025.2)
+Requirement already satisfied: python-dateutil&gt;=2.8.2 in c:\users\thinkpad\appdata\roaming\python\python310\site-packages (from pandas) (2.9.0.post0)
+Requirement already satisfied: pytz&gt;=2020.1 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from pandas) (2025.2)
+Requirement already satisfied: numpy&gt;=1.22.4 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from pandas) (2.2.6)
+Requirement already satisfied: joblib&gt;=1.2.0 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from scikit-learn) (1.5.2)
+Requirement already satisfied: scipy&gt;=1.8.0 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from scikit-learn) (1.15.3)
+Requirement already satisfied: threadpoolctl&gt;=3.1.0 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from scikit-learn) (3.6.0)
+Requirement already satisfied: pyparsing&gt;=2.3.1 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from matplotlib) (3.2.5)
+Requirement already satisfied: kiwisolver&gt;=1.3.1 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from matplotlib) (1.4.9)
+Requirement already satisfied: pillow&gt;=8 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from matplotlib) (11.3.0)
+Requirement already satisfied: packaging&gt;=20.0 in c:\users\thinkpad\appdata\roaming\python\python310\site-packages (from matplotlib) (25.0)
+Requirement already satisfied: contourpy&gt;=1.0.1 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from matplotlib) (1.3.2)
+Requirement already satisfied: fonttools&gt;=4.22.0 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from matplotlib) (4.60.0)
+Requirement already satisfied: cycler&gt;=0.10 in c:\users\thinkpad\appdata\local\programs\python\python310\lib\site-packages (from matplotlib) (0.12.1)
+Requirement already satisfied: six&gt;=1.5 in c:\users\thinkpad\appdata\roaming\python\python310\site-packages (from python-dateutil&gt;=2.8.2-&gt;pandas) (1.17.0)
+</pre></div>
+</div>
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[notice] A new release of pip is available: 23.0.1 -&gt; 25.3
+[notice] To update, run: python.exe -m pip install --upgrade pip
 </pre></div>
 </div>
 </div>
@@ -612,7 +622,7 @@ Note: you may need to restart the kernel to use updated packages.
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/521c77dae4261b98e3a8deaaf8b46df2bada8ebe72121e045e20b86413eed4d9.png" src="_images/521c77dae4261b98e3a8deaaf8b46df2bada8ebe72121e045e20b86413eed4d9.png" />
+<img alt="_images/d3fe5461e6e3c218bdf1d46ea4483e53199a45412a0b3f1c23ccb420b2d6981d.png" src="_images/d3fe5461e6e3c218bdf1d46ea4483e53199a45412a0b3f1c23ccb420b2d6981d.png" />
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Jumlah data per kelas sebelum SMOTE:
 cp                      143
 im                       77
@@ -621,13 +631,13 @@ imU                      35
 om                       20
 None                     12
 omL                       5
-imS                       2
 imL                       2
+imS                       2
 `localization_class`      1
 Name: count, dtype: int64
 </pre></div>
 </div>
-<img alt="_images/8adb39e63db90c8259563efdc1a0bbef8afa95bc3d71277b9160158296732d2d.png" src="_images/8adb39e63db90c8259563efdc1a0bbef8afa95bc3d71277b9160158296732d2d.png" />
+<img alt="_images/b4b90f1ee4c0ed76c6c0c840c7332372b3c72f45783dcd37c20233667dba7959.png" src="_images/b4b90f1ee4c0ed76c6c0c840c7332372b3c72f45783dcd37c20233667dba7959.png" />
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Jumlah data per kelas sebelum balancing:
 cp      143
 im       77
@@ -649,7 +659,7 @@ None    143
 Name: count, dtype: int64
 </pre></div>
 </div>
-<img alt="_images/aaabaf3786c877b84a826d43fa9f82c2b205bd7359e14b12a9edc4dd9865ac1e.png" src="_images/aaabaf3786c877b84a826d43fa9f82c2b205bd7359e14b12a9edc4dd9865ac1e.png" />
+<img alt="_images/486943f8e49d88747fea40d53949e884a2d1a344da9777849e7eb4c4ed7bc56c.png" src="_images/486943f8e49d88747fea40d53949e884a2d1a344da9777849e7eb4c4ed7bc56c.png" />
 </div>
 </div>
 </section>
@@ -785,7 +795,7 @@ Name: count, dtype: int64
 </div>
 </div>
 <div class="cell_output docutils container">
-<img alt="_images/521c77dae4261b98e3a8deaaf8b46df2bada8ebe72121e045e20b86413eed4d9.png" src="_images/521c77dae4261b98e3a8deaaf8b46df2bada8ebe72121e045e20b86413eed4d9.png" />
+<img alt="_images/d3fe5461e6e3c218bdf1d46ea4483e53199a45412a0b3f1c23ccb420b2d6981d.png" src="_images/d3fe5461e6e3c218bdf1d46ea4483e53199a45412a0b3f1c23ccb420b2d6981d.png" />
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Jumlah data per kelas sebelum ADASYN:
 cp                      143
 im                       77
@@ -794,8 +804,8 @@ imU                      35
 om                       20
 None                     12
 omL                       5
-imS                       2
 imL                       2
+imS                       2
 `localization_class`      1
 Name: count, dtype: int64
 
@@ -916,12 +926,10 @@ Jumlah total setelah filter = 143 + 77 + 52 + 35 + 20 + 5 = 332.
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Akurasi Naive Bayes (Data Asli): 0.7981
 Akurasi Naive Bayes (Setelah SMOTE): 0.8638
+ADASYN gagal, pakai hasil SMOTE sebagai gantinya
 </pre></div>
 </div>
-<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ADASYN gagal, pakai hasil SMOTE sebagai gantinya
-</pre></div>
-</div>
-<img alt="_images/dc3cdab30515e35b1ad89786a3627104b130c8b5037669b0fcb6c30ffefdb857.png" src="_images/dc3cdab30515e35b1ad89786a3627104b130c8b5037669b0fcb6c30ffefdb857.png" />
+<img alt="_images/3ecc05067e33781630f5d35a0f6a53ecbb42e3d0162b8b7568269e1a5ea08612.png" src="_images/3ecc05067e33781630f5d35a0f6a53ecbb42e3d0162b8b7568269e1a5ea08612.png" />
 </div>
 </div>
 </section>
@@ -993,7 +1001,7 @@ Akurasi Naive Bayes (Setelah SMOTE): 0.8638
 ADASYN gagal, pakai hasil SMOTE sebagai gantinya
 </pre></div>
 </div>
-<img alt="_images/c9e0edb6a243254e96ba4cd0e37bbe08e61941b0ba7c7c7bb521843eb206d487.png" src="_images/c9e0edb6a243254e96ba4cd0e37bbe08e61941b0ba7c7c7bb521843eb206d487.png" />
+<img alt="_images/c69ffda9245d58dfd677ff7612b861a4c946635bf749111935bce982fd8c842d.png" src="_images/c69ffda9245d58dfd677ff7612b861a4c946635bf749111935bce982fd8c842d.png" />
 </div>
 </div>
 </section>
@@ -1076,18 +1084,18 @@ ADASYN gagal, pakai hasil SMOTE sebagai gantinya
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages\sklearn\naive_bayes.py:509: RuntimeWarning: divide by zero encountered in log
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>C:\Users\ThinkPad\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\naive_bayes.py:512: RuntimeWarning: divide by zero encountered in log
   jointi = np.log(self.class_prior_[i])
-c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages\sklearn\naive_bayes.py:509: RuntimeWarning: divide by zero encountered in log
+C:\Users\ThinkPad\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\naive_bayes.py:512: RuntimeWarning: divide by zero encountered in log
   jointi = np.log(self.class_prior_[i])
-c:\users\thinkpad\appdata\local\programs\python\python39\lib\site-packages\sklearn\naive_bayes.py:509: RuntimeWarning: divide by zero encountered in log
+C:\Users\ThinkPad\AppData\Local\Programs\Python\Python310\lib\site-packages\sklearn\naive_bayes.py:512: RuntimeWarning: divide by zero encountered in log
   jointi = np.log(self.class_prior_[i])
 </pre></div>
 </div>
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>ADASYN gagal, pakai hasil SMOTE sebagai gantinya
 </pre></div>
 </div>
-<img alt="_images/44230c0968a598b28664f6b1ebd32d32a1524b745d3fd9ad391ea519190df9c4.png" src="_images/44230c0968a598b28664f6b1ebd32d32a1524b745d3fd9ad391ea519190df9c4.png" />
+<img alt="_images/91286433f05522d7416fa3a2d47b7cb5595dcb01c287bf6de078338a10938df2.png" src="_images/91286433f05522d7416fa3a2d47b7cb5595dcb01c287bf6de078338a10938df2.png" />
 </div>
 </div>
 <div class="cell docutils container">
@@ -1233,11 +1241,11 @@ Name: count, dtype: int64
       </div>
     </a>
     <a class="right-next"
-       href="Data%20Prepocessing.html"
+       href="Data_Prepocessing_Outlier.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Data Preprocessing</p>
+        <p class="prev-next-title">Data Understading</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
